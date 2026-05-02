@@ -1,0 +1,11 @@
+# Cron Superviseur — exécute l'agent superviseur toutes les heures
+# Le message est écrit dans alerte_sortie.json si une anomalie critique est détectée
+
+- id: "lelab-superviseur"
+  schedule: "0 * * * *"   # Toutes les heures
+  task: "cd /root/.openclaw/workspace/le-lab && python3 agents/superviseur/agent-superviseur.py"
+  timeout: 60
+  onComplete: |
+    Vérifie si /root/.openclaw/workspace/le-lab/data/alerte_sortie.json existe.
+    Si oui, lis le message et envoie-le à Kevyn sur Telegram,
+    puis supprime le fichier.

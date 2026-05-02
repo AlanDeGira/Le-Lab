@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  postfix:
+    image: boky/postfix
+    container_name: mail-postfix
+    restart: always
+    ports:
+      - "25:25"
+      - "587:587"
+    environment:
+      - ALLOW_EMPTY_SENDER_DOMAINS=true
+      - MYHOSTNAME=automatisations.org
+      - MYNETWORKS=127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16
+      - OPENDKIM_ENABLED=true
+      - OPENDKIM_DOMAINS=automatisations.org
+      - POSTFIX_MYHOSTNAME=mail.automatisations.org
+      - POSTFIX_MYDOMAIN=automatisations.org
+    volumes:
+      - mail_data:/var/mail
+      - ./opendkim/keys:/etc/opendkim/keys
+      - ./postfix:/etc/postfix/custom
+
+  dovecot:
+    image: dovecot/dovecot
+    container_name: mail-dovecot
+    restart: always
+    ports:
+      - "143:143"
+      - "993:993"
+    environment:
+      - DOVECOT_MAILBOX_FORMAT=Maildir
+      - DOVECOT_MAILBOX_PATH=/var/mail/%d/%n
+      - DOVECOT_AUTH_USERDB=static
+      - DOVECOT_SSL=yes
+      - DOVECOT_SSL_CERT=/etc/ssl/certs/mail.crt
+      - DOVECOT_SSL_KEY=/etc/ssl/private/mail.key
+    volumes:
+      - mail_data:/var/mail
+      - mail_certs:/etc/ssl/certs
+      - mail_certs:/etc/ssl/private
+
+volumes:
+  mail_data:
+  mail_certs:

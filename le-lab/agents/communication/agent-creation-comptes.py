@@ -1,57 +1,191 @@
 #!/usr/bin/env python3
 """
-Agent Création de Comptes
-Gère la génération et le suivi des comptes pour les portfolios.
+Agent Création de Comptes v2
+Génère les 26 portfolios et leurs comptes dans la BDD.
+Signale les anomalies au Superviseur.
 """
 
-import mysql.connector
+import sqlite3
 import os
 import sys
 from datetime import datetime
 
-DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'alan',
-    'password': 'Turing1!Alan',
-    'database': 'le_lab'
+DB_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'le-lab.db')
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+from signalement import signaler, erreur_critique, avertissement
+
+# ─── CONFIGURATION GLOBALE ───────────────────────────────────────────────────
+
+SUFFIXES = ['reel', 'story', 'content', 'media', 'feed', 'post', 'daily', 'vibe', 'style', 'life']
+SUFFIXE_ADMIN = 'strateur'
+MDP_SUFFIXE = '1!'
+MDP_ADMIN_SUFFIXE = '.admin1!'
+DATE_NAISSANCE = '1990-01-01'
+
+PRENOMS = {
+    1:  ('A', 'Adam'),
+    2:  ('B', 'Baptiste'),
+    3:  ('C', 'Camille'),
+    4:  ('D', 'Diane'),
+    5:  ('E', 'Émile'),
+    6:  ('F', 'Flora'),
+    7:  ('G', 'Gabriel'),
+    8:  ('H', 'Hugo'),
+    9:  ('I', 'Iris'),
+    10: ('J', 'Jules'),
+    11: ('K', 'Karine'),
+    12: ('L', 'Léo'),
+    13: ('M', 'Manon'),
+    14: ('N', 'Nathan'),
+    15: ('O', 'Oscar'),
+    16: ('P', 'Paul'),
+    17: ('Q', 'Quentin'),
+    18: ('R', 'Romane'),
+    19: ('S', 'Sacha'),
+    20: ('T', 'Théo'),
+    21: ('U', 'Ulysse'),
+    22: ('V', 'Valentin'),
+    23: ('W', 'William'),
+    24: ('X', 'Xander'),
+    25: ('Y', 'Yasmine'),
+    26: ('Z', 'Zoé'),
 }
 
+SOURCE = 'creation_comptes'
+
+# ─── BDD ────────────────────────────────────────────────────────────────────
+
 def get_db():
-    """Connexion MySQL"""
-    conn = mysql.connector.connect(**DB_CONFIG)
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys = ON")
     return conn
 
-def dashboard():
-    """Affiche le tableau de bord"""
+# ─── PORTFOLIOS ─────────────────────────────────────────────────────────────
+
+def creer_portfolio(numero, proxy=None):
+    """Crée un portfolio avec son prénom et lettre."""
+    if numero not in PRENOMS:
+        erreur_critique(SOURCE, f"Tentative création portfolio #{numero} invalide (1-26)")
+        return None
+
+    lettre, prenom = PRENOMS[numero]
+    nom = f"Portfolio {lettre} — {prenom}"
+
     conn = get_db()
-    cur = conn.cursor(dictionary=True)
-    
-    print("=" * 55)
-    print("📊 AGENT CRÉATION DE COMPTES - DASHBOARD")
-    print("=" * 55)
-    
+    try:
+        cur = conn.execute(
+            "INSERT INTO portfolios (nom, numero, lettre, prenom, proxy, statut) VALUES (?, ?, ?, ?, ?, 'en_creation')",
+            (nom, numero, lettre, prenom, proxy)
+        )
+        portfolio_id = cur.lastrowid
+        conn.commit()
+        signaler('info', SOURCE, f"Portfolio #{numero} '{nom}' créé",
+                 {'portfolio_id': portfolio_id, 'numero': numero, 'prenom': prenom})
+        return portfolio_id
+    except Exception as e:
+        erreur_critique(SOURCE, f"Échec création portfolio #{numero}", str(e))
+        return None
+    finally:
+        conn.close()
+
+def generer_comptes(portfolio_id):
+    """Génère les 10 comptes publication + 1 admin pour un portfolio."""
+    conn = get_db()
+    cur = conn.cursor()
+
+    cur.execute("SELECT numero, prenom FROM portfolios WHERE id=?", (portfolio_id,))
+    p = cur.fetchone()
+    if not p:
+        erreur_critique(SOURCE, f"Portfolio #{portfolio_id} introuvable")
+        conn.close()
+        return
+
+    numero = p['numero']
+    prenom = p['prenom']
+    mdp = f"{prenom}{MDP_SUFFIXE}"
+    mdp_admin = f"{prenom}{MDP_ADMIN_SUFFIXE}"
+
+    comptes_crees = 0
+    erreurs = 0
+
+    for suffixe in SUFFIXES:
+        email = f"{prenom.lower()}.{suffixe}@automatisations.org"
+        nom_page = f"{prenom} {suffixe.capitalize()}"
+
+        try:
+            cur.execute("""
+                INSERT INTO comptes 
+                (portfolio_id, email, suffixe, mot_de_passe, nom_page, reseau, statut, role, date_de_naissance)
+                VALUES (?, ?, ?, ?, ?, 'facebook_page', 'en_attente', 'publication', ?)
+            """, (portfolio_id, email, suffixe, mdp, nom_page, DATE_NAISSANCE))
+
+            pseudo_ig = f"{prenom.lower()}_{suffixe}"
+            cur.execute("""
+                INSERT INTO comptes 
+                (portfolio_id, email, suffixe, mot_de_passe, reseau, pseudo_instagram, statut, role, date_de_naissance)
+                VALUES (?, ?, ?, ?, 'instagram', ?, 'en_attente', 'publication', ?)
+            """, (portfolio_id, email, suffixe, mdp, pseudo_ig, DATE_NAISSANCE))
+
+            cur.execute("""
+                INSERT INTO comptes 
+                (portfolio_id, email, suffixe, mot_de_passe, reseau, statut, role, date_de_naissance)
+                VALUES (?, ?, ?, ?, 'tiktok', 'en_attente', 'publication', ?)
+            """, (portfolio_id, email, suffixe, mdp, DATE_NAISSANCE))
+
+            comptes_crees += 3
+        except Exception as e:
+            erreurs += 1
+            avertissement(SOURCE, f"Échec insertion {email}", str(e))
+
+    email_admin = f"{prenom.lower()}.{SUFFIXE_ADMIN}@automatisations.org"
+    nom_page_admin = f"{prenom} Administration"
+    try:
+        cur.execute("""
+            INSERT INTO comptes 
+            (portfolio_id, email, suffixe, mot_de_passe, nom_page, reseau, statut, role, date_de_naissance)
+            VALUES (?, ?, ?, ?, ?, 'facebook_page', 'en_attente', 'admin', ?)
+        """, (portfolio_id, email_admin, SUFFIXE_ADMIN, mdp_admin, nom_page_admin, DATE_NAISSANCE))
+        comptes_crees += 1
+    except Exception as e:
+        erreurs += 1
+        erreur_critique(SOURCE, f"Échec insertion admin {email_admin}", str(e))
+
+    cur.execute("UPDATE portfolios SET statut='actif' WHERE id=?", (portfolio_id,))
+    conn.commit()
+    conn.close()
+
+    signaler('info' if erreurs == 0 else 'warning', SOURCE,
+             f"Portfolio {prenom} — {comptes_crees} comptes créés, {erreurs} erreurs",
+             {'portfolio_id': portfolio_id, 'prenom': prenom, 'total': comptes_crees, 'erreurs': erreurs})
+
+# ─── DASHBOARD ──────────────────────────────────────────────────────────────
+
+def dashboard():
+    conn = get_db()
+    cur = conn.cursor()
+
+    print("=" * 60)
+    print("📊 AGENT CRÉATION DE COMPTES — DASHBOARD")
+    print("=" * 60)
+
     cur.execute("SELECT * FROM vue_etat_global")
     row = cur.fetchone()
     if row:
-        print(f"  Comptes totaux:         {row['total_comptes']}")
-        print(f"  Comptes actifs:         {row['comptes_actifs']}")
-        print(f"  Comptes bloqués:        {row['comptes_bloques']}")
-        print(f"  Portfolios:             {row['total_portfolios']}")
-        print(f"  Publications réussies:  {row['pubs_reussies']}")
-        print(f"  Publications échouées:  {row['pubs_echouees']}")
-    
+        for k in row.keys():
+            print(f"  {k}: {row[k]}")
+
     print("\n📋 Portfolios :")
-    cur.execute("SELECT id, nom, numero, statut FROM portfolios ORDER BY numero")
+    cur.execute("SELECT * FROM vue_portfolio_detail ORDER BY numero")
     for p in cur.fetchall():
-        cur.execute("SELECT COUNT(*) as c FROM comptes WHERE portfolio_id=%s", (p['id'],))
-        nb = cur.fetchone()['c']
-        cur.execute("SELECT COUNT(*) as c FROM comptes WHERE portfolio_id=%s AND statut='actif'", (p['id'],))
-        actifs = cur.fetchone()['c']
-        print(f"  #{p['numero']} {p['nom']} [{p['statut']}] - {actifs}/{nb} actifs")
-    
+        print(f"  #{p['numero']} [{p['lettre']}] {p['prenom']:10s} — "
+              f"{p['total_comptes']:2d} comptes ({p['actifs']} actifs, {p['bloques']} bloqués) "
+              f"FB:{p['facebook']} IG:{p['instagram']} TK:{p['tiktok']}")
+
     print("\n⚠️  Comptes problématiques :")
     cur.execute("""
-        SELECT c.id, c.email, c.reseau, c.statut, c.date_creation, p.nom as portfolio
+        SELECT c.email, c.reseau, c.statut, c.suffixe, p.prenom
         FROM comptes c JOIN portfolios p ON c.portfolio_id = p.id
         WHERE c.statut IN ('bloque', 'shadowban', 'a_verifier')
         ORDER BY c.date_creation DESC
@@ -59,131 +193,41 @@ def dashboard():
     problemes = cur.fetchall()
     if problemes:
         for c in problemes:
-            print(f"  🔴 {c['email']} - {c['reseau']} - {c['statut']} ({c['portfolio']})")
+            print(f"  🔴 {c['prenom']}.{c['suffixe']} ({c['reseau']}) — {c['statut']}")
     else:
-        print("  ✅ Aucun compte problématique")
-    
+        print("  ✅ Rien à signaler")
+
     conn.close()
 
-def creer_portfolio(numero, proxy=None):
-    """Crée un nouveau portfolio"""
-    conn = get_db()
-    cur = conn.cursor()
-    nom = f"Portfolio {numero}"
-    try:
-        cur.execute("INSERT INTO portfolios (nom, numero, proxy, statut) VALUES (%s, %s, %s, 'en_creation')",
-                   (nom, numero, proxy))
-        conn.commit()
-        print(f"✅ Portfolio #{numero} '{nom}' créé")
-        return cur.lastrowid
-    except Exception as e:
-        print(f"❌ Erreur : {e}")
-        return None
-    finally:
-        conn.close()
+# ─── CLI ────────────────────────────────────────────────────────────────────
 
-def ajouter_email(portfolio_id):
-    """Génère un email automatisations.org pour le portfolio"""
-    # Noms alphabétiques par portfolio (1=A, 2=B, 3=C...)
-    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    
-    conn = get_db()
-    cur = conn.cursor(dictionary=True)
-    cur.execute("SELECT numero FROM portfolios WHERE id=%s", (portfolio_id,))
-    p = cur.fetchone()
-    
-    if not p:
-        print(f"❌ Portfolio #{portfolio_id} introuvable")
-        conn.close()
-        return None
-    
-    lettre = alphabet[p['numero'] - 1]
-    
-    # Liste de prénoms par lettre
-    prenoms = {
-        'A': ['Antoine', 'Alexandre', 'Anaïs', 'Arthur', 'Amélie', 'Adam', 'Axel', 'Alice', 'Alban', 'Aurélie'],
-        'B': ['Benjamin', 'Bastien', 'Bérénice', 'Bruno', 'Baptiste', 'Blandine', 'Bertrand', 'Béatrice', 'Boris', 'Brigitte'],
-        'C': ['Camille', 'Clément', 'Coralie', 'Cédric', 'Charlotte', 'Christophe', 'Céline', 'Corentin', 'Coline', 'Cyril'],
-        'D': ['David', 'Delphine', 'Damien', 'Diane', 'Dylan', 'Dorian', 'Daphné', 'Denis', 'Dominique', 'Danièle'],
-        'E': ['Emma', 'Étienne', 'Élodie', 'Émile', 'Estelle', 'Éric', 'Eva', 'Edouard', 'Élise', 'Ethan'],
-        'F': ['Florent', 'Fanny', 'Fabien', 'Flora', 'Franck', 'Fiona', 'Frédéric', 'Flavie', 'Florian', 'Félicie'],
-        'G': ['Gabriel', 'Gaëlle', 'Guillaume', 'Géraldine', 'Gaspard', 'Gwen', 'Grégoire', 'Gaëtan', 'Gisèle', 'Gilles'],
-        'H': ['Hugo', 'Hélène', 'Henri', 'Hermine', 'Hadrien', 'Hortense', 'Hervé', 'Honorine', 'Hippolyte', 'Huguette'],
-        'I': ['Inès', 'Ismaël', 'Iris', 'Ivan', 'Imane', 'Isabelle', 'Isaac', 'Irène', 'Idriss', 'Iphigénie'],
-        'J': ['Jules', 'Jeanne', 'Jérôme', 'Julie', 'Jérémy', 'Jessica', 'Jordan', 'Justine', 'Jonathan', 'Juliette'],
-        'K': ['Kévin', 'Karine', 'Kenzo', 'Khadija', 'Kylian', 'Kim', 'Killian', 'Kelly', 'Kurt', 'Kenza'],
-        'L': ['Lucas', 'Léa', 'Louis', 'Laura', 'Léo', 'Lise', 'Lucien', 'Léonie', 'Lorenzo', 'Lucie'],
-        'M': ['Mathis', 'Manon', 'Maxime', 'Marie', 'Mattéo', 'Mélanie', 'Marcel', 'Mylène', 'Morgan', 'Margot'],
-        'N': ['Nathan', 'Nina', 'Noé', 'Nadia', 'Nicolas', 'Noémie', 'Nolan', 'Nathalie', 'Nelson', 'Nora'],
-        'O': ['Oscar', 'Océane', 'Olivier', 'Odile', 'Owen', 'Orlane', 'Octave', 'Oriane', 'Othman', 'Ophélie'],
-        'P': ['Paul', 'Pauline', 'Pierre', 'Pénélope', 'Philippe', 'Priscille', 'Patrick', 'Pascale', 'Pablo', 'Paloma'],
-        'Q': ['Quentin', 'Quitterie', 'Quoc', 'Quentin', 'Quiana', 'Quillan', 'Qamar', 'Queen', 'Quirinus', 'Quintina'],
-        'R': ['Romain', 'Romane', 'Raphaël', 'Rachel', 'Robin', 'Roxane', 'Rémi', 'Rebecca', 'Roger', 'Rosalie'],
-        'S': ['Sarah', 'Simon', 'Sacha', 'Sandra', 'Samuel', 'Sophie', 'Sébastien', 'Sylvie', 'Steven', 'Sabrina'],
-        'T': ['Thomas', 'Tatiana', 'Théo', 'Tamara', 'Tristan', 'Tiphaine', 'Timothée', 'Thérèse', 'Tom', 'Tania'],
-        'U': ['Ulysse', 'Ursule', 'Uriel', 'Uma', 'Ulrich', 'Ursula', 'Ugo', 'Umberto', 'Uranie', 'Ulysse'],
-        'V': ['Valentin', 'Valérie', 'Victor', 'Vanessa', 'Vincent', 'Victoire', 'Vianney', 'Violette', 'Vladimir', 'Véronique'],
-        'W': ['William', 'Wendy', 'Wesley', 'Wilhelmine', 'Walter', 'Wanda', 'Warren', 'Wilma', 'Walid', 'Wivine'],
-        'X': ['Xavier', 'Xavière', 'Xander', 'Xana', 'Xénophon', 'Xylia', 'Xerxès', 'Ximena', 'Xavier', 'Xynthia'],
-        'Y': ['Yannick', 'Yasmine', 'Yves', 'Yseult', 'Yanis', 'Yolande', 'Yohan', 'Ysée', 'Yuri', 'Yvonne'],
-        'Z': ['Zoé', 'Zacharie', 'Zélie', 'Zakaria', 'Zéphyr', 'Zia', 'Zachary', 'Zita', 'Zoran', 'Zulma'],
-    }
-    
-    prenoms_lettre = prenoms.get(lettre, [])
-    if not prenoms_lettre:
-        # Fallback
-        prenoms_lettre = [f"User{lettre}{i+1}" for i in range(10)]
-    
-    # Voir combien d'emails existent déjà pour ce portfolio
-    cur.execute("SELECT COUNT(*) as c FROM comptes WHERE portfolio_id=%s", (portfolio_id,))
-    count = cur.fetchone()['c']
-    
-    if count >= 10:
-        print(f"⚠️ Portfolio #{portfolio_id} a déjà {count} comptes (max 10)")
-        conn.close()
-        return []
-    
-    emails = []
-    start = count
-    for i in range(start, min(start + (10 - count), 10)):
-        prenom = prenoms_lettre[i]
-        nom = prenom[0]
-        email = f"{prenom.lower()}.{lettre.lower()}{i+1}@automatisations.org"
-        mdp = "Automatisation1!"
-        
-        try:
-            cur.execute("""INSERT INTO comptes 
-                (portfolio_id, email, mot_de_passe, reseau, pseudo, statut)
-                VALUES (%s, %s, %s, 'facebook', %s, 'en_attente')""",
-                (portfolio_id, email, mdp, f"@{prenom}.{lettre.lower()}{i+1}"))
-            emails.append({'email': email, 'prenom': prenom, 'mdp': mdp})
-        except Exception as e:
-            print(f"  ⚠️ {email} déjà existant")
-    
-    conn.commit()
-    conn.close()
-    
-    print(f"✅ {len(emails)} emails générés pour le Portfolio #{portfolio_id}")
-    for e in emails:
-        print(f"  {e['email']} - {e['prenom']}")
-    
-    return emails
+def generer_tout(proxy_par_portfolio=None):
+    print("🚀 GÉNÉRATION COMPLÈTE — 26 PORTFOLIOS")
+    proxies = proxy_par_portfolio or [None] * 26
+
+    for numero in range(1, 27):
+        proxy = proxies[numero - 1] if isinstance(proxies, list) else proxy_par_portfolio
+        pid = creer_portfolio(numero, proxy)
+        if pid:
+            generer_comptes(pid)
+        if numero < 26:
+            print()
+
+    signaler('info', SOURCE, f"Génération terminée — {26 * 31} comptes dans 26 portfolios")
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
+    if len(sys.argv) < 2:
+        dashboard()
+    else:
         cmd = sys.argv[1]
         if cmd == "dashboard":
             dashboard()
-        elif cmd == "creer_portfolio":
-            num = int(sys.argv[2]) if len(sys.argv) > 2 else 2
-            proxy = sys.argv[3] if len(sys.argv) > 3 else None
-            pid = creer_portfolio(num, proxy)
+        elif cmd == "generer":
+            generer_tout()
+        elif cmd == "portfolio":
+            num = int(sys.argv[2])
+            pid = creer_portfolio(num)
             if pid:
-                ajouter_email(pid)
-        elif cmd == "generer_emails":
-            pid = int(sys.argv[2])
-            ajouter_email(pid)
+                generer_comptes(pid)
         else:
-            print("Commandes: dashboard, creer_portfolio <num>, generer_emails <portfolio_id>")
-    else:
-        dashboard()
+            print("Commandes: dashboard, generer, portfolio <num>")
