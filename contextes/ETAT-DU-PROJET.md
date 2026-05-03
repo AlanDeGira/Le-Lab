@@ -56,7 +56,7 @@ La priorité actuelle est de créer une base documentaire solide pour qu'Alan pu
 - 10 suffixes par prénom
 - `prenom.ideaz` = compte principal
 - date de naissance : 15/10/1978
-- email : `prenom.suffixe@automatisation.org`
+- email : `prenom.suffixe@automatisations.org`
 - Instagram / TikTok : `@prenom.suffixe`
 - Facebook / Page Facebook / YouTube : `Prénom Suffixe`
 
@@ -68,7 +68,7 @@ Suffixes : ideaz, mode, art, vibe, style, zone, rush, lab, hub, live.
 |---|---|
 | Relance session à 50% contexte | Alan propose, Kevyn valide ou refuse |
 | Règle recontextualisation | Début de session : Alan lit 00 + CONTEXTE-ACTUEL uniquement |
-| DOMAINE EMAIL | automatisation.org (sans s) |
+| DOMAINE EMAIL | automatisations.org (avec s) |
 | DATE NAISSANCE | 15/10/1978 (remplace 1990-01-01) |
 | YOUTUBE | Réintégré dans la structure comptes (non prioritaire) |
 | AGENTS SOURCES | Fichiers officiels fournis par Kevyn → version serveur actualisée |

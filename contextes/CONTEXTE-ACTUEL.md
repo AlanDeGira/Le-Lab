@@ -56,7 +56,7 @@ Suffixes : ideaz, mode, art, vibe, style, zone, rush, lab, hub, live.
 
 Formats :
 
-- Email : `prenom.suffixe@automatisation.org`
+- Email : `prenom.suffixe@automatisations.org`
 - Instagram : `@prenom.suffixe`
 - TikTok : `@prenom.suffixe`
 - Facebook : `Prénom Suffixe`
