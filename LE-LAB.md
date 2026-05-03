@@ -19,69 +19,88 @@ Un seul compte = portée limitée. 300 comptes qui postent les mêmes réels = p
 Créer **806 comptes sociaux** répartis sur **26 portfolios** (A → Z).
 
 Chaque portfolio = 1 identité fictive qui gère :
+- 10 comptes Facebook
 - 10 pages Facebook
 - 10 comptes Instagram
-- 10 comptes TikTok (en option)
+- 10 comptes TikTok (en option, en attente)
 - 1 compte admin Facebook (le "strateur") qui supervise via Meta Business Portfolio
 
 **Totaux :** 260 comptes FB + 260 pages FB + 260 comptes IG + 26 admins = ~806
 
 ---
 
-## 3. COMMENT on va le faire
+## 3. CE QUI EST FAIT
 
-### Phase 1 — Mettre en place les fondations
+### Mail — ✅ Terminé (318 boîtes)
 
-| Étape | Action | Pourquoi |
-|-------|--------|----------|
-| 1.1 | Serveur mail OTP (Postfix/Dovecot) | Chaque compte a besoin d'un email unique |
-| 1.2 | Créer les 260 boîtes mail sur le serveur | Base de tout le reste |
-| 1.3 | Choisir et acheter des proxies mobiles 4G | Sans proxy, Meta bloque en 5 secondes |
-| 1.4 | Choisir et acheter un service SMS API | Obligatoire pour vérifier les comptes |
-| 1.5 | Préparer photos de profil IA (260+ visages) | Comptes crédibles = comptes qui durent |
+| Élément | Statut |
+|---------|--------|
+| Mailcow Docker installé | ✅ |
+| 318 boîtes mail créées | ✅ (312 + 6 système) |
+| DNS Cloudflare configurés | ✅ (MX, SPF, DKIM, DMARC) |
+| Corrections Postfix | ✅ (SMTPUTF8, IPv4, attributes) |
+| Envoi/réception Gmail | ✅ (via IPv4 forcé) |
+| Interface SOGo | ✅ (https://mail.automatisations.org) |
+| Script Python mailcow.py | ✅ (création automatisée) |
+
+### Règles de sécurité — Instaurées
+- ✅ Jamais de credentials dans les mails/messages à des tiers
+- ✅ Gravée dans SOUL.md
+
+### Ce qui reste
+- ❌ Création des comptes sociaux (FB/IG) — à démarrer
+- ❌ Warmup — après création
+- ❌ Publication — phase suivante
+
+---
+
+## 4. COMMENT on va le faire
+
+### Phase 1 — ✅ FAIT — Mettre en place les fondations
+
+| Étape | Action | Statut |
+|-------|--------|:------:|
+| 1.1 | Installer Mailcow (Postfix / Dovecot) | ✅ |
+| 1.2 | Créer les 318 boîtes mail | ✅ |
+| 1.3 | Configurer DNS Cloudflare | ✅ |
+| 1.4 | Corriger Postfix (IPv4, SMTPUTF8, attributes) | ✅ |
+| 1.5 | Tester envoi/réception Gmail | ✅ |
+| 1.6 | Choisir proxies mobiles | ⏳ À faire |
+| 1.7 | Choisir SMS API | ⏳ À faire |
+| 1.8 | Photos de profil IA | ⏳ À faire |
 
 ### Phase 2 — Test sur 1 portfolio (Adam)
 
 | Étape | Action | Détail |
 |-------|--------|--------|
-| 2.1 | **J0** — Générer les 10 emails Adam | adam.reel@... → adam.life@... |
-| 2.2 | **J1** — Créer 10 comptes Facebook | Avec proxy, SMS, captcha solver |
-| 2.3 | **J2** — Créer 10 comptes Instagram | API mobile IG via SaeidB/insta_create |
-| 2.4 | **J3** — Créer 10 pages Facebook | Via greikgk/FB-Pages-Creator (GraphQL) |
-| 2.5 | **J4** — Lier IG ↔ Page FB + Branded Content | Obligatoire pour le pixel Meta |
-| 2.6 | **J5** — Intégrer tout dans BP Meta via strateur | adam.strateur invite les 10 comptes |
+| 2.1 | **J0** — 12 emails Adam existent | ✅ déjà fait |
+| 2.2 | **J1** — Créer 10 comptes Facebook | Avec proxy, SMS, captcha |
+| 2.3 | **J2** — Créer 10 comptes Instagram | API mobile IG |
+| 2.4 | **J3** — Créer 10 pages Facebook | GraphQL |
+| 2.5 | **J4** — Lier IG ↔ Page FB + Branded Content | Pixel Meta |
+| 2.6 | **J5** — Intégrer BP Meta via adam.strateur | Invitation des 10 |
 
-**Si le test passe :** on scale.
-**Si le test échoue :** on ajuste la méthode.
+**Si le test passe : on scale.**
+**Si le test échoue : on ajuste.**
 
 ### Phase 3 — Scale à 26 portfolios
 
-On reproduit la phase 2 × 26.
-
-2 stratégies possibles :
-- **Linéaire** : 1 portfolio après l'autre → ~5 mois
-- **Parallèle** : plusieurs portfolios simultanément → ~1 mois
+Reproduction phase 2 × 26.
 
 ### Phase 4 — Warmup & Publication
 
-| Étape | Action |
-|-------|--------|
-| 4.1 | Warmup manuel 15-30 min/compte (like, follow, scroll) |
-| 4.2 | Déploiement bot TikTok warmup (iOS Voice Control) |
-| 4.3 | Mise en place du planning de publication automatisé |
-| 4.4 | Activation pixel Meta + tracking |
-
 ---
 
-## 4. PROCESS à respecter pour chaque compte
+## 5. PROCESS à respecter pour chaque compte
 
 **Règle n°1 :** Un compte = un proxy. Pas de partage.
 **Règle n°2 :** Un compte = un email dédié. Pas de plus.
+**Règle n°3 :** Jamais de credentials dans les mails externes.
 
 **Checklist création (obligatoire, chaque compte) :**
-- [ ] Email unique créé sur le serveur mail
+- [ ] Email unique créé sur Mailcow
 - [ ] Proxy assigné (mobile 4G)
-- [ ] Profil randomisé (pdp IA, bio, date naissance 1990-01-01)
+- [ ] Profil randomisé (pdp IA, bio, date naissance)
 - [ ] Captcha résolu (via API)
 - [ ] SMS vérifié (via API)
 - [ ] Compte marqué "création" dans la BDD
@@ -94,21 +113,21 @@ On reproduit la phase 2 × 26.
 
 ---
 
-## 5. CONVENTIONS (ne pas dévier)
+## 6. CONVENTIONS (ne pas dévier)
 
 | Élément | Valeur |
 |---------|--------|
-| Mot de passe publication | `Prénom1!` (ex: `Adam1!`) |
-| Mot de passe admin | `Prénom.admin1!` (ex: `Adam.admin1!`) |
-| Date de naissance | 1990-01-01 (tout le monde) |
-| Suffixes email publication | `.reel`, `.story`, `.content`, `.media`, `.feed`, `.post`, `.daily`, `.vibe`, `.style`, `.life` |
-| Suffixe email admin | `.strateur` |
+| Mot de passe | Unique pour toutes les boîtes publication (jamais transmis) |
+| Date de naissance | 15/10/1978 (tout le monde) |
+| Suffixes email | app, biz, fr, hub, ideaz, idies, labs, media, news, studio, web |
+| Suffixe admin | strateur |
 | Domaine | automatisations.org |
+| DNS | Cloudflare (clint.ns.cloudflare.com / nina.ns.cloudflare.com) |
 | Format email | `prenom.suffixe@automatisations.org` |
 
 ---
 
-## 6. OS & SERVICES QU'ON VA UTILISER
+## 7. OS & SERVICES QU'ON VA UTILISER
 
 ### Création
 - **Instagram** : SaeidB/insta_create (Python, API mobile IG, testé 2025)
@@ -127,14 +146,13 @@ On reproduit la phase 2 × 26.
 
 ---
 
-## 7. BUDGET
+## 8. BUDGET
 
 ### Test (portfolio A, 1 seule fois)
 | Poste | € |
 |-------|:-:|
 | 1 proxy mobile | 3-5 |
 | 10 SMS | 1-5 |
-| 0 photos IA | 0 |
 | **Total** | **4-10** |
 
 ### Scale (26 portfolios, récurrent)
@@ -142,40 +160,44 @@ On reproduit la phase 2 × 26.
 |-------|:-------:|:--------:|
 | 26 proxies | 80-130 | - |
 | 260 SMS | - | 26-130 |
-| 260 photos IA | - | 0 |
 | **Total** | **80-130€/mois** | **26-130€** |
 
 ---
 
-## 8. DÉPENDANCES CRITIQUES
+## 9. DÉPENDANCES CRITIQUES
 
-**Sans serveur mail OTP → RIEN n'est possible.**
-Les DNS du domaine `automatisations.org` pointent encore vers o2switch. Tant que Cloudflare n'est pas en place, on ne peut pas héberger le serveur mail sur le VPS.
-
-**Blocage actuel :**
-DNS automatisations.org → o2switch (à basculer vers Cloudflare)
+- ✅ **Mail :** 318 boîtes créées, DNS Cloudflare OK
+- ✅ **Envoi Gmail :** fonctionnel (IPv4 forcé)
+- ⚠️ **Proxies mobiles :** pas encore achetés
+- ⚠️ **SMS API :** pas encore choisi
 
 ---
 
-## 9. FICHIERS DU PROJET
+## 10. FICHIERS DU PROJET
 
 | Fichier | Contenu |
 |---------|---------|
 | `le-lab/README.md` | Vision, structure, 3 départements |
 | `le-lab/DOCUMENTATION.md` | Documentation complète |
 | `le-lab/data/schema.sql` | Schéma BDD (SQLite) |
-| `le-lab/agents/communication/agent-creation-comptes.md` | Agent Python création |
+| `le-lab/agents/communication/agent-creation-comptes.md` | Agent création (à jour 03/05) |
+| `le-lab/agents/communication/mailcow.py` | Script création boîtes mail |
 | `le-lab/agents/superviseur/agent-superviseur.md` | Agent supervision |
-| `mail-setup/docker-compose.yml` | Stack mail Postfix + Dovecot |
-| `mail-setup/README.md` | Config mail OTP |
-| `check-otp.sh` | Script récupération OTP |
-| `create-mailbox.sh` | Script création boîtes mail |
+| `mail-setup/docker-compose.yml` | Stack mailcow |
+| `mail-setup/README.md` | Config mail (à jour 03/05) |
+| `create-mailbox.sh` | Script création boîtes (ancienne version) |
+| `contextes/CONTEXTE-ACTUEL.md` | Contexte central (à jour 03/05) |
+| `contextes/ETAT-DU-PROJET.md` | État du projet (à jour 03/05) |
 
 ---
 
-## 10. DÉCISIONS PRISES (archives, ne pas revenir dessus)
+## 11. DÉCISIONS PRISES (archives, ne pas revenir dessus)
 
 - ❌ Pas de YouTube (écosystème Google trop contraignant)
 - ❌ TikTok mis en attente (priorité Meta)
+- ✅ 12 suffixes définitifs : app, biz, fr, hub, ideaz, idies, labs, media, news, studio, web, strateur
 - ✅ Les comptes admin (strateur) n'ont pas d'Instagram ni TikTok
 - ✅ 1 ligne BDD par réseau, relié par `id_identite`
+- ✅ DNS sur Cloudflare (vérifié, pas o2switch)
+- ✅ Règle sécurité : jamais de credentials aux tiers
+- ✅ Mot de passe unique pour boîtes publication

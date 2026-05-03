@@ -15,6 +15,25 @@
 9. Un seul portfolio testé d'abord (Adam × 10 comptes)
 10. Si test OK → scale à 26 portfolios
 
+## ✅ ÉTAT DE L'INFRASTRUCTURE MAIL (03/05)
+
+- **318 boîtes mail** créées sur automatisations.org
+- **Mailcow Docker** opérationnel (Postfix, Dovecot, Rspamd, SOGo)
+- **DNS Cloudflare** : MX, SPF, DKIM, DMARC configurés
+- **Corrections appliquées :**
+  - SMTPUTF8 désactivé (conflit Dovecot)
+  - Envoi IPv4 forcé (Gmail rejette IPv6 sans PTR)
+  - attributes mailbox_format sur les 318 boîtes
+- **Domaines vérifiés :** clint.ns.cloudflare.com / nina.ns.cloudflare.com
+- **Interface :** https://mail.automatisations.org
+
+## CONVENTIONS MAIL (respectées)
+- Suffixes : **app, biz, fr, hub, ideaz, idies, labs, media, news, studio, web, strateur**
+- Format : `prenom.suffixe@automatisations.org`
+- Domaine : **automatisations.org** (avec s)
+- Mot de passe unique pour boîtes publication (stocké en base, jamais transmis)
+- Date de naissance : 15/10/1978
+
 ---
 
 ## 1. INSTAGRAM — SaeidB/insta_create
@@ -38,15 +57,15 @@ pip install -r requirements.txt
 # config.py
 PROXY = "http://user:pass@ip:port"  # Proxy mobile obligatoire
 INSTA_API = "370.0.0.42.96"
-SMS_API_KEY = "..."  # 5sim ou SMSActivate
-CAPTCHA_API_KEY = "..."  # 2Captcha
+SMS_API_KEY = "***"  # 5sim ou SMSActivate
+CAPTCHA_API_KEY = "***"  # 2Captcha
 ```
 
 ### Exécution
 ```bash
 python insta_create.py \
   --email adam.reel@automatisations.org \
-  --password Adam1! \
+  --password *** \
   --proxy http://user:pass@ip:port \
   --birthday 1990-01-01 \
   --username adam_reel
@@ -82,7 +101,7 @@ pip install -r requirements.txt
 ### Configuration
 ```python
 # Config : token Facebook, proxy, etc.
-FB_TOKEN = "..."  # Récupéré depuis le compte Facebook associé
+FB_TOKEN = "***"  # Récupéré depuis le compte Facebook associé
 PROXY = "http://user:pass@ip:port"
 PAGE_NAME = "Adam Reel"  # Nom de la page
 PAGE_CATEGORY = "Shopping & Retail"
@@ -154,11 +173,11 @@ Quand on y viendra :
 
 Pour chaque portfolio (ex: Adam) :
 
-### J0 — Préparation
-- [ ] 10 boîtes mail créées sur le serveur
+### J0 — ✅ Déjà fait
+- [x] 12 boîtes mail créées sur Mailcow
 - [ ] 1 proxy mobile attribué
-- [ ] 10 photos de profil générées (IA)
-- [ ] 10 bios randomisées préparées
+- [ ] 12 photos de profil générées (IA)
+- [ ] 12 bios randomisées préparées
 
 ### J1 — Comptes Facebook
 - [ ] 10 comptes FB créés (Selenium DIY)

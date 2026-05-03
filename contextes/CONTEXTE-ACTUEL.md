@@ -50,20 +50,26 @@ Agents en veille : Historique & Identités, Publication, Data & Statistiques, An
 
 ## Structure comptes validée
 
-Règle : 1 prénom = 1 groupe / portfolio, 10 suffixes par prénom, compte principal = `prenom.ideaz`.
+- 1 prénom = 1 groupe / portfolio (A → Z)
+- **12 suffixes** par prénom : app, biz, fr, hub, ideaz, idies, labs, media, news, studio, web, strateur
+- Compte principal : `prenom.ideaz`
+- Strateur : `prenom.strateur` (admin portfolio)
+- 26 portfolios × 12 boîtes = 312 boîtes publication + 6 système = 318 boîtes totales
+- Domaine : automatisations.org (avec s)
+- DNS : Cloudflare (clint.ns.cloudflare.com / nina.ns.cloudflare.com)
+- Mot de passe unique pour les boîtes publication (stocké en base)
+- Date de naissance par défaut : 15/10/1978
 
-Suffixes : ideaz, mode, art, vibe, style, zone, rush, lab, hub, live.
+## Infrastructure mail (Mailcow)
 
-Formats :
-
-- Email : `prenom.suffixe@automatisations.org`
-- Instagram : `@prenom.suffixe`
-- TikTok : `@prenom.suffixe`
-- Facebook : `Prénom Suffixe`
-- Page Facebook : `Prénom Suffixe`
-- YouTube : `Prénom Suffixe`
-
-Date de naissance par défaut : 15/10/1978.
+- **Serveur :** Mailcow Docker (mailcowdockerized)
+- **Composants :** nginx → Postfix → Dovecot → MySQL + Rspamd + Redis + Let's Encrypt
+- **Interface :** SOGo sur https://mail.automatisations.org
+- **Corrections appliquées :**
+  - SMTPUTF8 désactivé (conflit Dovecot)
+  - IPv4 forcé pour Postfix (Gmail rejette IPv6 sans PTR)
+  - attributes mailbox_format sur toutes les boîtes (fix "User unknown")
+- **Script :** mailcow.py (création automatisée par lots)
 
 ## Source documentaire
 
@@ -84,6 +90,12 @@ Règle absolue : **ne rien perdre**.
 
 Alan lit `00-ALAN-CEO-CTO.md` et `CONTEXTE-ACTUEL.md` au démarrage. Il lit les autres seulement si nécessaire.
 
+## 🔐 Règles de sécurité
+
+- Jamais de mots de passe, tokens, clés API, logins, IPs internes dans les emails ou messages à des tiers
+- Gravée dans SOUL.md (Core Truths)
+- Applicable à tous les agents du Lab
+
 ## Règle de mise à jour
 
 Chaque agent peut mettre à jour son propre fichier Markdown.
@@ -92,9 +104,11 @@ Les agents ne modifient pas directement les fichiers centraux. Ils proposent une
 
 ## État opérationnel actuel
 
-Validé : rôle d'Alan, autonomie d'Alan, liste des agents, agents comme business units, structure des comptes, source serveur + GitHub, budget IA, audit hebdomadaire, gestion des incidents, structure contextes/ complète (12 fichiers), files MD officiels remplacés sur le serveur.
+Validé : rôle d'Alan, autonomie d'Alan, liste des agents, agents comme business units, structure des comptes (12 suffixes), source serveur + GitHub, budget IA, audit hebdomadaire, gestion des incidents, structure contextes/ complète, files MD officiels remplacés sur le serveur, Mailcow opérationnel (318 boîtes), règle sécurité externe.
 
-À faire : résoudre DNS o2switch → Cloudflare (bloquant).
+Résolu : DNS sur Cloudflare (étaient déjà chez Cloudflare, pas o2switch).
+
+À faire : créer les comptes sociaux (FB, IG) pour commencer le test sur Adam.
 
 ## Décisions ouvertes
 

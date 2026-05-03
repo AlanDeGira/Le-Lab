@@ -18,38 +18,47 @@ Toujours lire : `CONTEXTE-ACTUEL.md` et `01-AGENT-CREATION-COMPTES.md`. Lire si 
 - Structure : `prenom.suffixe@automatisations.org`
 - Instagram/TikTok : `@prenom.suffixe`
 - Facebook/Page Facebook/YouTube : `Prénom Suffixe`
-- Suffixes validés : ideaz, app, biz, hub, idies, labs, media, news, studio, web, fr
-- Strateur : `prenom.strateur@automatisations.org`
+- **12 suffixes validés :** app, biz, fr, hub, ideaz, idies, labs, media, news, studio, web, strateur
+- Strateur : `prenom.strateur@automatisations.org` (admin portfolio)
 - Compte principal : `prenom.ideaz`
-- MDP publication : `Prénom1!`
-- MDP strateur : `Prénom.admin1!`
+- **Mot de passe unique** pour toutes les boîtes publication (stocké en base)
 - Date de naissance : 15/10/1978
 
 ## Ce qui a été fait
 
-- Logique `prenom.suffixe` validée (11 suffixes + strateur)
-- Domaine automatisations.org confirmé (avec s)
-- Création des boîtes mail via Mailcow intégrée au périmètre
-- **26 portfolios créés** (A→Z) avec leurs 12 boîtes chacun : 312 boîtes publication + 5 boîtes système = 317 boîtes totales
-- Validation automatique : chaque boîte envoie un email test vers validation@automatisations.org
-- Postfix configuré en IPv4 prioritaire pour Gmail
+- ✅ 26 portfolios créés (A→Z) avec leurs 12 boîtes chacun
+- ✅ 312 boîtes publication + 5 système + 1 perso = 318 boîtes totales
+- ✅ Validation automatique : envoi test vers validation@automatisations.org
+- ✅ Corrections Postfix appliquées (SMTPUTF8, IPv4, attributes)
+- ✅ Toutes les boîtes peuvent recevoir des mails (Gmail testé ok)
+- ✅ DNS Cloudflare vérifiés et opérationnels
+
+### Infrastructure mail actuelle
+- **Serveur :** Mailcow Docker (mailcowdockerized)
+- **SMTP :** Postfix (IPv4 forcé pour Gmail)
+- **IMAP :** Dovecot
+- **Web :** SOGo sur https://mail.automatisations.org
+- **Base :** MySQL (table mailbox, 318 entrées)
 
 ## Décisions prises
 
 - Domaine officiel : automatisations.org (avec s)
+- DNS : Cloudflare (clint.ns.cloudflare.com / nina.ns.cloudflare.com)
 - Strateur obligatoire : prenom.strateur pour chaque portfolio
+- 12 suffixes définitifs : app, biz, fr, hub, ideaz, idies, labs, media, news, studio, web, strateur
 - Création des boîtes mail intégrée au périmètre de l'agent
+- Mot de passe unique pour les boîtes publication (générique, stocké en base)
 - L'agent crée les boîtes mail Mailcow avant que les outils externes créent les comptes sociaux
 
 ## État actuel
 
 ```txt
-Actif
+Actif — 318 boîtes créées, en attente création comptes sociaux
 ```
 
 ## Prochaine étape
 
-Toutes les boîtes mail sont créées (317). Prochaine étape : créer les comptes sociaux (Facebook, Instagram) via les outils externes (Selenium, insta_create).
+Créer les comptes sociaux (Facebook, Instagram) via les outils externes (Selenium, insta_create).
 
 ---
 
@@ -70,4 +79,3 @@ L'agent ne modifie pas directement les fichiers centraux. Alan valide les modifi
 ## Dernière mise à jour
 
 2026-05-03
-

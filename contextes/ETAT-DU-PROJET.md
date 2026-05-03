@@ -22,7 +22,7 @@ Alan est autonome par défaut. Kevyn intervient uniquement pour les décisions c
 
 Le projet est en phase de structuration initiale.
 
-La priorité actuelle est de créer une base documentaire solide pour qu'Alan puisse travailler efficacement sans répéter tout le contexte à chaque demande.
+La priorité actuelle est de finaliser l'infrastructure mail et de démarrer la création des comptes sociaux.
 
 ## Ce qui est validé
 
@@ -50,17 +50,26 @@ La priorité actuelle est de créer une base documentaire solide pour qu'Alan pu
 - Agent Infrastructure
 - Agent Documentation MD
 
-## Structure comptes validée
+## Structure comptes validée (MAJ 03/05)
 
-- 1 prénom = 1 groupe / portfolio
-- 10 suffixes par prénom
-- `prenom.ideaz` = compte principal
-- date de naissance : 15/10/1978
-- email : `prenom.suffixe@automatisations.org`
+- 1 prénom = 1 groupe / portfolio (26 lettres A→Z)
+- **12 suffixes** par prénom : app, biz, fr, hub, ideaz, idies, labs, media, news, studio, web, **strateur**
+- Compte principal : `prenom.ideaz`
+- Strateur (admin) : `prenom.strateur`
+- Date de naissance : 15/10/1978
+- Email : `prenom.suffixe@automatisations.org`
 - Instagram / TikTok : `@prenom.suffixe`
 - Facebook / Page Facebook / YouTube : `Prénom Suffixe`
+- Mot de passe unique pour boîtes publication (stocké en base)
 
-Suffixes : ideaz, mode, art, vibe, style, zone, rush, lab, hub, live.
+## Infrastructure mail (MAJ 03/05)
+
+- Mailcow Docker opérationnel (mailcowdockerized)
+- 318 boîtes mail créées (312 publication + 6 système)
+- DNS Cloudflare : MX, SPF, DKIM, DMARC (vérifiés)
+- Corrections Postfix : SMTPUTF8 off, IPv4 forcé, attributes mailbox_format
+- Envoi/réception Gmail fonctionnel (IPv4)
+- Interface SOGo sur https://mail.automatisations.org
 
 ## Arbitrages déjà faits
 
@@ -69,11 +78,13 @@ Suffixes : ideaz, mode, art, vibe, style, zone, rush, lab, hub, live.
 | Relance session à 50% contexte | Alan propose, Kevyn valide ou refuse |
 | Règle recontextualisation | Début de session : Alan lit 00 + CONTEXTE-ACTUEL uniquement |
 | DOMAINE EMAIL | automatisations.org (avec s) |
+| HÉBERGEMENT DNS | Cloudflare (clint / nina) — vérifié, pas o2switch |
+| SUFFIXES DÉFINITIFS | app, biz, fr, hub, ideaz, idies, labs, media, news, studio, web, strateur |
 | DATE NAISSANCE | 15/10/1978 (remplace 1990-01-01) |
+| MOT DE PASSE | Unique pour toutes les boîtes publication (jamais transmis par mail) |
 | YOUTUBE | Réintégré dans la structure comptes (non prioritaire) |
 | AGENTS SOURCES | Fichiers officiels fournis par Kevyn → version serveur actualisée |
-| STRUCTURE DOSSIER | contextes/ (12 fichiers) + incidents/
-|---|---|
+| STRUCTURE DOSSIER | contextes/ (12 fichiers) + incidents/ |
 | Rôle d'Alan | Alan est CEO & CTO du Lab |
 | Autonomie | Alan est autonome sauf décisions critiques |
 | Budget IA | Maximum 20 € / mois |
@@ -90,6 +101,10 @@ Suffixes : ideaz, mode, art, vibe, style, zone, rush, lab, hub, live.
 | Accès critiques | Fichier sécurisé serveur |
 | OTP | Fichier spécial temporaire |
 | Google Workspace | Supprimé pour le moment |
+| **SÉCURITÉ EXTERNE** | **Jamais de credentials dans les emails/messages à des tiers (règle absolue)** |
+| **SMTPUTF8** | Désactivé (conflit Dovecot) |
+| **ENVOI IPv4** | Forcé (Gmail rejette IPv6 sans PTR) |
+| **ATTRIBUTES MAILBOX** | `{"mailbox_format": "maildir:"}` sur toutes les boîtes |
 
 ## Décisions en attente
 
@@ -114,19 +129,20 @@ Suffixes : ideaz, mode, art, vibe, style, zone, rush, lab, hub, live.
 | Accès sensibles mal stockés | Élevé | Risque sécurité | Alan + Infrastructure | Fichier sécurisé serveur |
 | Publication non cadrée | Élevé | Risque opérationnel | Alan + Agent Publication | Règle à définir avant exécution |
 | Contenus sans droits clairs | Élevé | Risque juridique | Agent Publication | Vérifier preuve de droit |
+| **PTR IPv6 manquant** | **Faible** | Envoi Gmail | Infrastructure | Contourné par IPv4 forcé |
 
 ## Ce qui reste à faire
 
 Fait cette session :
-- ✅ 12 fichiers centraux créés dans contextes/
-- ✅ Fichiers officiels remplacés (sources Kevyn)
-- ✅ Commit + push GitHub effectué (04fc053)
-- ✅ Règle de recontextualisation à 50% contexte définie
-- ✅ LOG.md créé
+- ✅ 318 boîtes mail créées (312 + 6 système)
+- ✅ Corrections Postfix : SMTPUTF8 off, IPv4 forcé, attributes mailbox_format
+- ✅ DNS Cloudflare vérifiés (étaient déjà chez Cloudflare)
+- ✅ Règle de sécurité externe instaurée (jamais de credentials aux tiers)
+- ✅ Envoi récap mail à Ahmidouche (architecture safe)
+- ✅ Mise à jour de tous les .md concernés
 
 Reste à faire :
-- Résoudre DNS o2switch → Cloudflare (bloquant)
-- Structurer la gestion des comptes
+- Créer les comptes sociaux (test sur Adam d'abord)
 - Définir la base de données quand le besoin sera concret
 - Préparer les règles de publication plus tard
 

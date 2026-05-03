@@ -1,33 +1,48 @@
 # Mail OTP — automatisations.org
 
-## 1. DNS déjà configurés (Cloudflare)
-- ✅ MX → mail.automatisations.org
+## 1. DNS (Cloudflare) — vérifiés
+- ✅ NS : clint.ns.cloudflare.com / nina.ns.cloudflare.com
+- ✅ MX → mail.automatisations.org (priorité 10)
 - ✅ SPF (v=spf1 mx ~all)
-- ✅ DKIM (mail._domainkey)
+- ✅ DKIM (mail._domainkey — généré par Rspamd)
 - ✅ DMARC (_dmarc)
 
-## 2. Installation sur le serveur
+## 2. Infrastructure déployée
+- **Serveur :** Mailcow Docker (mailcowdockerized)
+- **Stack complète :** nginx → Postfix (SMTP) → Dovecot (IMAP/POP3) → MySQL
+- **Antispam :** Rspamd (signature DKIM active)
+- **SSL :** Let's Encrypt (auto via acme-mailcow)
+- **Interface web :** SOGo sur https://mail.automatisations.org
+- **Boîtes créées :** 318 (312 publication + 6 système)
+- **MVP gestion :** Script Python mailcow.py (hash Dovecot + INSERT MySQL)
 
+## 3. Corrections appliquées
+- `smtputf8_enable = no` (conflit Dovecot)
+- `smtp_bind_address = 0.0.0.0` (force IPv4 — Gmail rejette IPv6 sans PTR)
+- `attributes = {"mailbox_format": "maildir:"}` sur toutes les boîtes (fix "User unknown")
+- Reload Postfix après chaque modif
+
+## 4. Créer une boîte mail
+
+### Méthode SQL directe
 ```bash
-# Copier les fichiers sur le serveur
-# Puis :
-cd /home/n8nuser/n8n
-# Ajouter le contenu du docker-compose mail au docker-compose existant,
-# OU créer un docker-compose séparé :
-cp /root/mail-setup/docker-compose.yml ./
-docker compose up -d
+HASH=$(docker exec mailcowdockerized-dovecot-mailcow-1 doveadm pw -s SHA512-CRYPT -p "MotDePasse")
+docker exec mailcowdockerized-mysql-mailcow-1 mariadb -u mailcow -p<PASS> mailcow -e \
+  "INSERT INTO mailbox (username, password, name, local_part, domain, kind, quota, active)
+   VALUES ('user@automatisations.org', '$HASH', 'Display Name', 'user', 'automatisations.org', 'mailbox', 1073741824, 1);"
 ```
 
-## 3. Créer des boîtes mail
+### Méthode SOGo (interface web)
+- https://mail.automatisations.org/SOGo → connexion admin → Mailboxes → Add mailbox
 
-```bash
-# Créer un utilisateur mail pour OTP
-docker exec mail-postfix adduser otp@automatisations.org
-docker exec mail-postfix passwd otp@automatisations.org
-# Mot de passe par défaut : changer immédiatement
-```
-
-## 4. Tester
-- Envoyer un mail à otp@automatisations.org
+## 5. Tester
+- Envoyer depuis Gmail vers n'importe quelle adresse du domaine
 - Vérifier la réception : IMAP mail.automatisations.org port 143
 - Vérifier DKIM : https://www.appmail.dev/dkim-check/
+
+## 6. État
+- ✅ DNS OK (Cloudflare)
+- ✅ Mailcow opérationnel
+- ✅ 318 boîtes créées
+- ✅ Corrections Postfix appliquées
+- ⚠️ PTR IPv6 non configurable (hébergeur VPS) → contourné par envoi IPv4
