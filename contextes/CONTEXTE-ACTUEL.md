@@ -1,8 +1,8 @@
-# Contexte actuel — Le Lab
+# Contexte actuel - Le Lab
 
 ## Rôle du fichier
 
-`CONTEXTE-ACTUEL.md` est la fiche de démarrage rapide d’Alan.
+`CONTEXTE-ACTUEL.md` est la fiche de démarrage rapide d'Alan.
 
 Alan lit ce fichier au début du travail avec `00-ALAN-CEO-CTO.md`.
 
@@ -12,15 +12,15 @@ Ce fichier doit être court en consommation de tokens, mais assez détaillé pou
 
 Phase actuelle : **structuration initiale du Lab**.
 
-Le projet met en place : gouvernance d’Alan, agents permanents, documentation Markdown, structure des comptes et infrastructure serveur / GitHub / base de données / Mailcow.
+Le projet met en place : gouvernance d'Alan, agents permanents, documentation Markdown, structure des comptes et infrastructure serveur / GitHub / base de données / Mailcow.
 
 ## Sens rapide du projet
 
-Le Lab est un projet e-commerce dont l’objectif est de vendre des produits grâce à du contenu organique publié sur une multitude de comptes sociaux : Instagram, Facebook, TikTok et YouTube.
+Le Lab est un projet e-commerce dont l'objectif est de vendre des produits grâce à du contenu organique publié sur une multitude de comptes sociaux : Instagram, Facebook, TikTok et YouTube.
 
 ## Alan
 
-Alan est le **CEO & CTO du Lab**. Il est l’agent principal et le chef d’orchestre du projet.
+Alan est le **CEO & CTO du Lab**. Il est l'agent principal et le chef d'orchestre du projet.
 
 Alan est autonome par défaut. Il demande validation à Kevyn uniquement pour les décisions critiques : coût, suppression de fichiers importants, DNS, accès sensibles, architecture principale, automatisation à grande échelle, modification massive de base de données.
 
@@ -30,7 +30,7 @@ Budget IA maximum : **20 € / mois**.
 
 Modèles disponibles : DeepSeek et Ollama local petite version. OpenRouter est prévu à terme.
 
-Au début, Alan demande validation avant d’utiliser ou de changer de modèle pour une tâche importante.
+Au début, Alan demande validation avant d'utiliser ou de changer de modèle pour une tâche importante.
 
 ## Agents permanents validés
 
@@ -92,9 +92,9 @@ Les agents ne modifient pas directement les fichiers centraux. Ils proposent une
 
 ## État opérationnel actuel
 
-Validé : rôle d’Alan, autonomie d’Alan, liste des agents, agents comme business units, structure des comptes, source serveur + GitHub, budget IA, audit hebdomadaire, gestion des incidents.
+Validé : rôle d'Alan, autonomie d'Alan, liste des agents, agents comme business units, structure des comptes, source serveur + GitHub, budget IA, audit hebdomadaire, gestion des incidents, structure contextes/ complète (12 fichiers), files MD officiels remplacés sur le serveur.
 
-À faire : installer ces fichiers sur le serveur, laisser Alan décider l’arborescence finale, sauvegarder sur GitHub, compléter les agents actifs, démarrer par documentation, création comptes et infrastructure.
+À faire : résoudre DNS o2switch → Cloudflare (bloquant).
 
 ## Décisions ouvertes
 

@@ -1,20 +1,20 @@
-# État du projet — Le Lab
+# État du projet - Le Lab
 
 ## Rôle du fichier
 
-`ETAT-DU-PROJET.md` est la photographie claire de l’état du Lab à un instant donné.
+`ETAT-DU-PROJET.md` est la photographie claire de l'état du Lab à un instant donné.
 
 Il doit permettre de comprendre exactement où en est le projet à chaque lecture.
 
 ## Sens global du projet
 
-Le Lab est un projet e-commerce dont l’objectif est de vendre des produits grâce à du contenu organique publié sur une multitude de comptes sociaux.
+Le Lab est un projet e-commerce dont l'objectif est de vendre des produits grâce à du contenu organique publié sur une multitude de comptes sociaux.
 
-Le projet s’appuie sur une organisation d’agents, une infrastructure serveur, des fichiers Markdown de contexte, des comptes sociaux structurés, des contenus organiques, une base de données, une analyse de performance et une logique d’optimisation des coûts IA.
+Le projet s'appuie sur une organisation d'agents, une infrastructure serveur, des fichiers Markdown de contexte, des comptes sociaux structurés, des contenus organiques, une base de données, une analyse de performance et une logique d'optimisation des coûts IA.
 
 ## Gouvernance
 
-Alan est le CEO & CTO du Lab. Il est le chef d’orchestre du projet et gère la vision, la technique, les agents, les arbitrages, les coûts IA, le serveur, GitHub, les fichiers Markdown et la cohérence générale.
+Alan est le CEO & CTO du Lab. Il est le chef d'orchestre du projet et gère la vision, la technique, les agents, les arbitrages, les coûts IA, le serveur, GitHub, les fichiers Markdown et la cohérence générale.
 
 Alan est autonome par défaut. Kevyn intervient uniquement pour les décisions critiques.
 
@@ -22,11 +22,11 @@ Alan est autonome par défaut. Kevyn intervient uniquement pour les décisions c
 
 Le projet est en phase de structuration initiale.
 
-La priorité actuelle est de créer une base documentaire solide pour qu’Alan puisse travailler efficacement sans répéter tout le contexte à chaque demande.
+La priorité actuelle est de créer une base documentaire solide pour qu'Alan puisse travailler efficacement sans répéter tout le contexte à chaque demande.
 
 ## Ce qui est validé
 
-- Le projet s’appelle **Le Lab**.
+- Le projet s'appelle **Le Lab**.
 - Le Lab vise la vente de produits e-commerce via contenu organique.
 - Alan est CEO & CTO.
 - Alan est autonome sauf décisions critiques.
@@ -66,7 +66,15 @@ Suffixes : ideaz, mode, art, vibe, style, zone, rush, lab, hub, live.
 
 | Sujet | Arbitrage |
 |---|---|
-| Rôle d’Alan | Alan est CEO & CTO du Lab |
+| Relance session à 50% contexte | Alan propose, Kevyn valide ou refuse |
+| Règle recontextualisation | Début de session : Alan lit 00 + CONTEXTE-ACTUEL uniquement |
+| DOMAINE EMAIL | automatisation.org (sans s) |
+| DATE NAISSANCE | 15/10/1978 (remplace 1990-01-01) |
+| YOUTUBE | Réintégré dans la structure comptes (non prioritaire) |
+| AGENTS SOURCES | Fichiers officiels fournis par Kevyn → version serveur actualisée |
+| STRUCTURE DOSSIER | contextes/ (12 fichiers) + incidents/
+|---|---|
+| Rôle d'Alan | Alan est CEO & CTO du Lab |
 | Autonomie | Alan est autonome sauf décisions critiques |
 | Budget IA | Maximum 20 € / mois |
 | Modèles | DeepSeek + Ollama local, OpenRouter plus tard |
@@ -109,14 +117,18 @@ Suffixes : ideaz, mode, art, vibe, style, zone, rush, lab, hub, live.
 
 ## Ce qui reste à faire
 
-- Déposer les fichiers Markdown sur le serveur.
-- Laisser Alan décider l’organisation finale des dossiers.
-- Sauvegarder sur GitHub.
-- Mettre à jour `AGENTS-ACTIFS.md` avec les emplacements réels.
-- Compléter les agents actifs : Documentation MD, Création Comptes, Infrastructure.
-- Définir la base de données quand le besoin sera concret.
-- Structurer la gestion des comptes.
-- Préparer les règles de publication plus tard.
+Fait cette session :
+- ✅ 12 fichiers centraux créés dans contextes/
+- ✅ Fichiers officiels remplacés (sources Kevyn)
+- ✅ Commit + push GitHub effectué (04fc053)
+- ✅ Règle de recontextualisation à 50% contexte définie
+- ✅ LOG.md créé
+
+Reste à faire :
+- Résoudre DNS o2switch → Cloudflare (bloquant)
+- Structurer la gestion des comptes
+- Définir la base de données quand le besoin sera concret
+- Préparer les règles de publication plus tard
 
 ## Dernière mise à jour
 
