@@ -1,75 +1,66 @@
-# Agent Création de Comptes v2
+# Agent Création de Comptes — Mise à jour mail
 
 ## Rôle
-Générer les 26 portfolios (A → Z) avec leurs comptes Facebook, Instagram et TikTok.
+Créer les boîtes mail pour les 26 portfolios sur le domaine automatisations.org.
 
-## Architecture
-- **26 portfolios**, 1 par lettre de l'alphabet
-- **1 prénom** par portfolio (ex: Portfolio A = Adam)
-- **10 comptes publication** + **1 compte admin** par portfolio
-- Chaque publication a : 1 page Facebook + 1 Instagram + 1 TikTok
-- Chaque email = 3 lignes dans la BDD (1 par réseau)
+## Infrastructure mail
+- **Serveur :** Mailcow Docker (mailcowdockerized)
+- **Base :** MySQL (table `mailbox`)
+- **SMTP :** Postfix (envoi forcé en IPv4)
+- **IMAP :** Dovecot
+- **Interface web :** SOGo sur https://mail.automatisations.org
 
-## Portfolios
-| # | Lettre | Prénom | Admin |
-|---|--------|--------|-------|
-| 1 | A | Adam | adam.strateur |
-| 2 | B | Baptiste | baptiste.strateur |
-| ... | ... | ... | ... |
-| 26 | Z | Zoé | zoe.strateur |
+## Boîtes créées (318 au total)
 
-## Suffixes email (10)
-- `.reel`, `.story`, `.content`, `.media`, `.feed`
-- `.post`, `.daily`, `.vibe`, `.style`, `.life`
+### 312 boîtes publication
+26 prénoms (Adam → Zoé) × 12 suffixes :
+
+| Groupe | Suffixes |
+|--------|----------|
+| Web/App | app, web, fr |
+| Projets | hub, labs, studio |
+| Média | media, news, ideaz, idies |
+| Business | biz |
+| Admin | strateur |
 
 Format : `prenom.suffixe@automatisations.org`
 
-## Mots de passe
-- Comptes publication : `Prénom1!` (ex: `Adam1!`)
-- Compte admin : `Prénom.admin1!` (ex: `Adam.admin1!`)
-- Date de naissance : `1990-01-01` pour tous
+### 6 boîtes système
+- `admin@automatisations.org` — Admin Mailcow
+- `contact@automatisations.org` — Contact général
+- `otp@automatisations.org` — Bot OTP
+- `test@automatisations.org` — Test
+- `validation@automatisations.org` — Validation email
+- `alan.degira@automatisations.org` — Alan (personnelle)
 
-## Par portfolio
-- 30 comptes publication (10 FB + 10 IG + 10 TK)
-- 1 compte admin FB (strateur)
-- **31 comptes au total par portfolio**
-- **806 comptes pour les 26 portfolios** (admin compris)
+## DNS (Cloudflare)
+- NS : clint.ns.cloudflare.com / nina.ns.cloudflare.com
+- MX : mail.automatisations.org (priorité 10)
+- SPF : v=spf1 mx ~all
+- DKIM : mail._domainkey (généré par Rspamd)
+- DMARC : _dmarc (p=none)
 
-## Conditions obligatoires de création (transmises par l'Agent Publication)
+## Méthodes de création
 
-Chaque compte créé **doit impérativement** respecter ces 3 conditions :
+### Interface SOGo (manuel)
+- Connexion admin sur https://mail.automatisations.org/SOGo
+- Mailboxes → Add mailbox
 
-### 1. Compte Instagram lié à sa page Facebook
-- Le compte Instagram (Pro) doit être connecté à la page Facebook correspondante (même suffixe)
-- Vérifiable dans Meta Business Suite → Instagram → Linked Accounts
+### SQL direct
+```sql
+UPDATE mailbox SET attributes = '{"mailbox_format": "maildir:"}';
+-- Requis pour que Postfix trouve les boîtes
+```
 
-### 2. Compte intégré au Business Portfolio Meta
-- Tous les comptes FB/IG d'un même portfolio doivent être membres du Business Portfolio
-- Géré par le compte strateur (admin) qui invite chaque page FB
+### Script Python (mailcow.py)
+- Automatisation par lots (hash Dovecot + INSERT MySQL)
 
-### 3. Branded Content activé
-- Chaque compte Instagram doit autoriser le contenu de marque (Branded Content / Partnerships)
-- Permet de taguer la marque partenaire dans chaque publication
-- Requis pour le tracking via pixel Meta
+## Config Postfix (corrections appliquées)
+- `smtputf8_enable = no` — évite le conflit SMTPUTF8/Dovecot
+- `smtp_bind_address = 0.0.0.0` — force IPv4 (Gmail rejette IPv6 sans PTR)
+- `attributes = {"mailbox_format": "maildir:"}` sur TOUTES les boîtes
 
-Ces conditions sont **vérifiées** après création. Tout compte ne les respectant pas est marqué `a_verifier`.
-
-## Admin (strateur)
-- Ne publie pas
-- Gère le Business Portfolio Meta
-- Lie les pages Facebook entre elles
-- Invite les 10 comptes publication dans le BP Meta
-- Active Branded Content pour chaque compte
-- Pas d'Instagram, pas de TikTok
-
-## Commandes
-- `dashboard` — Vue d'ensemble
-- `generer` — Génère les 26 portfolios
-- `portfolio <num>` — Génère un seul portfolio
-
-## BDD
-- Table `comptes` : 1 ligne par réseau (FB/IG/TK)
-- Champ `role` : 'publication' ou 'admin'
-- Champ `suffixe` : le suffixe de l'email (pour regroupement)
-- Vue `vue_portfolio_detail` : stats par portfolio
-- Vue `vue_etat_global` : stats globales
+## Mémo technique
+- Mot de passe générique pour les boîtes publication (stocké dans la base, jamais transmis)
+- Admin mailcow : utilisateur `mailcow` / base `mailcow`
+- Quota par défaut : 100 Mo (publication) / 5 Go (système)
