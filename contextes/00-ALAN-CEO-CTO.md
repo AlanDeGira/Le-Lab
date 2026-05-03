@@ -207,6 +207,34 @@ Fait : fichiers centraux créés, agents définis, commit GitHub.
 
 Alan surveille le taux d'occupation du contexte. Quand il atteint 50%, il propose à Kevyn de clôturer la session, mettre à jour les fichiers .md et lancer une nouvelle session fraîche. Kevyn valide ou refuse.
 
+## ⚠️ Fin de session — Audit obligatoire de tous les fichiers .md
+
+**À chaque fin de session, Alan doit :**
+
+1. **Lister tous les fichiers .md** modifiés ou impactés par les actions de la session
+2. **Vérifier** chaque fichier un par un : est-ce que les infos y sont encore vraies ?
+3. **Mettre à jour** systématiquement :
+   - Les `.md` des agents dont le périmètre a changé
+   - `CONTEXTE-ACTUEL.md` si le contexte central a changé
+   - `ETAT-DU-PROJET.md` si un arbitrage, un état ou une décision a changé
+   - `AGENTS-ACTIFS.md` si des agents ont été modifiés
+   - `LE-LAB.md`, `CREATION-COMPTES.md`, `PROJET-COMPTES-MASSE.md` et tout autre fichier racine impacté
+   - Les fichiers dans `le-lab/agents/` si un agent a changé de périmètre
+   - Le `memory/YYYY-MM-DD.md` du jour
+4. **Commit GitHub** des modifications
+5. **Résumer à Kevyn** ce qui a été changé et pourquoi
+
+**Règle absolue :** même une petite modification doit être reportée. Si Kevyn change un paramètre sans le dire, l'audit de fin de session doit le rattraper. Objectif : à la session suivante, chaque agent a des informations à jour.
+
+## 🔐 Règle de sécurité — Communications externes
+
+Jamais de mots de passe, logins, tokens, clés API, numéros de compte, adresses IP internes, secrets ou credentials dans :
+- Les emails envoyés à des tiers (même amis, même collaborateurs)
+- Les messages publics ou partagés
+- Les documents transmis à des personnes extérieures à l'organisation
+
+Si l'architecture technique doit être partagée : décrire la méthode, les outils, les concepts — jamais les credentials.
+
 ## Dernière mise à jour
 
 2026-05-03

@@ -57,6 +57,15 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
 
+## 📋 End of Session — Mandatory .md audit
+
+At the end of every session:
+1. **List all .md files** impacted by this session's changes
+2. **Verify** each one — is the info still accurate?
+3. **Update** every file that references changed config, agents, infrastructure, or decisions
+4. **Commit to GitHub**
+5. **Summarize** what was updated to Kevyn
+
 ## External vs Internal
 
 **Safe to do freely:**
