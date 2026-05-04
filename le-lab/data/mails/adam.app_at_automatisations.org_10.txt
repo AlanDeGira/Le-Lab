@@ -1,0 +1,21 @@
+Return-Path: <adam.strateur@automatisations.org>
+Delivered-To: adam.app@automatisations.org
+Received: from mail.automatisations.org ([172.22.1.253])
+	by dcb029441ff0 with LMTP
+	id EIh0JWXP+Gl8UgEAUlR1WQ
+	(envelope-from <adam.strateur@automatisations.org>)
+	for <adam.app@automatisations.org>; Mon, 04 May 2026 18:55:01 +0200
+X-Original-To: adam.app@automatisations.org
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7B44DCF374
+	for <adam.app@automatisations.org>; Mon,  4 May 2026 18:54:59 +0200 (CEST)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Subject: Confirmez votre adresse email LinkedIn
+From: adam.strateur@automatisations.org
+To: adam.app@automatisations.org
+X-Last-TLS-Session-Version: TLSv1.3
+
+Qm9uam91ciwKClZvdHJlIGNvZGUgZGUgdsOpcmlmaWNhdGlvbiBlc3QgMzgyOTEuCgpDbGlxdWV6
+IGljaSBwb3VyIGNvbmZpcm1lciB2b3RyZSBhZHJlc3NlIGVtYWlsLgoKTCDDqXF1aXBlIExpbmtl
+ZElu

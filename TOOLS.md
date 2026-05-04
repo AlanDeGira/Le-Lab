@@ -13,7 +13,7 @@ Things like:
 - Device nicknames
 - Anything environment-specific
 
-## Examples
+## Exemple
 
 ```markdown
 ### Cameras
@@ -38,6 +38,33 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ---
 
 Add whatever helps you do your job. This is your cheat sheet.
+
+## Règles de diagnostic — Infrastructure
+
+**Règle n°1 — Toujours vérifier Docker d'abord.**
+
+Beaucoup de services sur ce VPS tournent en containers : Mailcow (Postfix, Dovecot, SOGo, Rspamd), Ollama, etc. Ne jamais conclure qu'un service est absent parce que le binaire système n'existe pas ou que systemctl ne le voit pas. Commencer par :
+```
+docker ps -a --format 'table {{.Names}}\t{{.Status}}'
+```
+
+**Règle n°2 — Vérifier les ports ouverts**
+```
+ss -tlnp | grep -E ':25|:143|:993|:587|:465'
+```
+Si un port SMTP/IMAP répond, le service est là — peu importe comment.
+
+**Règle n°3 — Connaître les chemins Docker de ce serveur**
+- Mailcow : `/opt/mailcow-dockerized/`
+- MySQL Mailcow : `mailcowdockerized-mysql-mailcow-1` (port 13306 sur l'hôte)
+- Volumes de données : sous `/opt/mailcow-dockerized/data/`
+
+## Services conteneurisés sur ce VPS
+
+| Service | Container(s) | Infos |
+|---------|-------------|-------|
+| Mailcow | postfix, dovecot, sogo, rspamd, mysql, redis, ... | 18 containers, `/opt/mailcow-dockerized/` |
+| Ollama | ollama | Port 11434 |
 
 ## Related
 

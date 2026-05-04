@@ -1,0 +1,62 @@
+[
+  {
+    "ts": "2026-05-04T16:01:49.926494+00:00",
+    "prenom": "adam",
+    "mailbox": "adam.strateur@automatisations.org",
+    "sender": "adam.strateur@automatisations.org",
+    "subject": "Votre code Instagram",
+    "service": "autre",
+    "otp": null,
+    "uid": "35",
+    "type": "other",
+    "msg": "💬 adam.strateur ← adam.strateur@automatisations.org — Votre code Instagram"
+  },
+  {
+    "ts": "2026-05-04T16:33:20.508398+00:00",
+    "mailbox": "adam.app@automatisations.org",
+    "sender": "adam.strateur@automatisations.org",
+    "subject": "Votre code de connexion Facebook",
+    "service": "autre",
+    "otp": null,
+    "uid": "8",
+    "type": "other",
+    "msg": "💬 adam.app@automatisations.org ← adam.strateur@automatisations.org — Votre code de connexion Facebook"
+  },
+  {
+    "ts": "2026-05-04T16:52:03.920503+00:00",
+    "mailbox": "adam.app@automatisations.org",
+    "sender": "iletaitunburger@gmail.com",
+    "subject": "Test",
+    "service": "autre",
+    "otp": null,
+    "uid": "9",
+    "type": "other",
+    "msg": "💬 adam.app@automatisations.org ← iletaitunburger@gmail.com — Test"
+  },
+  {
+    "ts": "2026-05-04T16:55:05.668775+00:00",
+    "mailbox": "adam.app@automatisations.org",
+    "sender": "adam.strateur@automatisations.org",
+    "subject": "Confirmez votre adresse email LinkedIn",
+    "service": "autre",
+    "otp": null,
+    "uid": "10",
+    "body_preview": "Return-Path: <adam.strateur@automatisations.org>\r\nDelivered-To: adam.app@automatisations.org\r\nReceived: from mail.automatisations.org ([172.22.1.253])\r\n\tby dcb029441ff0 with LMTP\r\n\tid EIh0JWXP+Gl8UgEAUlR1WQ\r\n\t(envelope-from <adam.strateur@automatisations.org>)\r\n\tfor <adam.app@automatisations.org>; M",
+    "body_file": "/root/.openclaw/workspace/le-lab/agents/mail/../../data/mails/adam.app_at_automatisations.org_10.txt",
+    "type": "mail",
+    "msg": "📩 adam.app@automatisations.org ← adam.strateur@automatisations.org — Confirmez votre adresse email LinkedIn"
+  },
+  {
+    "ts": "2026-05-04T20:06:20.641752+00:00",
+    "mailbox": "adam.ideaz@automatisations.org",
+    "sender": "iletaitunburger@gmail.com",
+    "subject": "test",
+    "service": "autre",
+    "otp": "20251104",
+    "uid": "4",
+    "body_preview": "Return-Path: <iletaitunburger@gmail.com>\r\nDelivered-To: adam.ideaz@automatisations.org\r\nReceived: from mail.automatisations.org ([fd4d:6169:6c63:6f77::f])\r\n\tby dcb029441ff0 with LMTP\r\n\tid gLaAETn8+GmugQEAUlR1WQ\r\n\t(envelope-from <iletaitunburger@gmail.com>)\r\n\tfor <adam.ideaz@automatisations.org>; Mon",
+    "body_file": "/root/.openclaw/workspace/le-lab/agents/mail/../../data/mails/adam.ideaz_at_automatisations.org_4.txt",
+    "type": "otp",
+    "msg": "🔑 adam.ideaz@automatisations.org ← iletaitunburger@gmail.com code: 20251104"
+  }
+]

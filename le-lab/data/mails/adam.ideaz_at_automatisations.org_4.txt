@@ -1,0 +1,144 @@
+Return-Path: <iletaitunburger@gmail.com>
+Delivered-To: adam.ideaz@automatisations.org
+Received: from mail.automatisations.org ([fd4d:6169:6c63:6f77::f])
+	by dcb029441ff0 with LMTP
+	id gLaAETn8+GmugQEAUlR1WQ
+	(envelope-from <iletaitunburger@gmail.com>)
+	for <adam.ideaz@automatisations.org>; Mon, 04 May 2026 22:06:17 +0200
+X-Original-To: adam.ideaz@automatisations.org
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.automatisations.org (Postcow) with ESMTPS id 0152CCF390
+	for <adam.ideaz@automatisations.org>; Mon,  4 May 2026 22:06:14 +0200 (CEST)
+Authentication-Results: mail.automatisations.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=FtlrDc8A;
+	spf=pass (mail.automatisations.org: domain of iletaitunburger@gmail.com designates 209.85.217.48 as permitted sender) smtp.mailfrom=iletaitunburger@gmail.com;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("google.com:s=arc-20240605:i=1")
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-60fa5eb3ee1so1611385137.2
+        for <adam.ideaz@automatisations.org>; Mon, 04 May 2026 13:06:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777925172; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Oor/Vac1MIXOXf57a/8/K5hXZX6+5d8KrTU3Gl4OIKzR8qfgn4HH990p8dr/PBTWqx
+         sfIemMOks98HFVAIvrQZwz5pGZ5ZLRkp7tz3YrFAQ/OtVvLskXkQ7MA8yuVsZ3YzHrev
+         EFpS7FXKYBqfaZ8Illjkyy5/EAZvhZnxoY2I5lrNsSAh+NFVXsKa0roOGObQUl5JUcQ6
+         zHly0dNWbqKrvLQLoDXQKQdGRVtbiEmJ466rWC/a5dKT8qatcBaJAd5e8EP0dB029by+
+         nKwR7J4ozsTw0fTAV4S2S0OAJx7Q5S2XnksOxj9pPU7uVbJl8NTdjbYVbePSZygiP5dq
+         7XwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=UumYBOlUcbdHSbC6lFX7ild25tdsSgCOOC2eeAaHhf4=;
+        fh=ahz+2DKn3t8w+HoBHKGaOZ9rh/eMvXQ6fiLqe/Kzp2c=;
+        b=Y4zhGjckCRsNI/2FH+ur5DB39pTPS0/JGyAg5XvCHxKoXSwWKVir9jeTlqtxTR0dO9
+         +YQidS9zWmte1G2XgdNy/wVR6znvxFXTosVvI4fB/OwyiER9+5PfOAvUW54TI4epz6jk
+         kA9Uk3ewzDd8+Kbo/QDjiSXEV8cx5ttBx/HzDOJ6ACrNMWM0QT550SkgaY72/QvrIE/O
+         /n6xkn3hGAgc5y1HvFbPSkb5VApUa9tAmWbGy5DKCrTuzidXAv/ED9D8KlcjfPU0vu40
+         54zuLh5awACCjaxNkqN+cZtFnT9fCZvHNr+3+mbSQhvuj7ekcZZ8+fps+vJrcVDU3q9c
+         4tmQ==;
+        darn=automatisations.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777925172; x=1778529972; darn=automatisations.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UumYBOlUcbdHSbC6lFX7ild25tdsSgCOOC2eeAaHhf4=;
+        b=FtlrDc8A4DIcrzULoizfN1R7OeJgOuRJNBx2Bk9A7f1CfUJobzn7hVjpRos0xBBR9H
+         Pqro4/JPGKp9SrFG+wmDQLdWSR4tCHvDOXV7OnXYK8JPjWCxeOhSvSiDNGYkyo6ywGw7
+         iA4SuFIh/36df4Dp5Uxe2K2DU0V11GfednMSOZVxigKbm1HgX6gEPZiXAte7MndlXqlS
+         hpzvgBepZYKJAr/a1xm8B6LpTuOAZF5xR8/p84KFi98+mhu/honjdNZIQ+MV8H7oYp/K
+         SIS8tt+VP391VYd9tCMH8IoPxo7cLS/+mAOxNWzt9wsxpzBCf5kGc8obEOyS5fS2PCyy
+         Sjcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777925172; x=1778529972;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UumYBOlUcbdHSbC6lFX7ild25tdsSgCOOC2eeAaHhf4=;
+        b=SuFOZOGX27iVwbOzzAWEFiaaNQ1zFvfkqoW6RROh/bg6nnqw9aD52T85nLNO370k/j
+         kQA4gGo10NbvzszJ+6r2Zvbt35GJH59VH1sGsXZvVj/bCtcqK1OqL6oKsTg7nWziK22W
+         xs7raET4axuXbdHg61L7KMxo0APQ6BlPovq0eaT0To3LgqGRD/VsUcvr02ili3xhN1bh
+         SqmsTu81D3PyHtpNLkcXGFgOcCxYxCjALRUxWgVsD+Ls7PkklCBvDkO+USifli90i5o6
+         5w5ths9SVjkH6NlI3kzDD+4BhRUmYCPBzdKdlL4p1nKbHu1Agup4qLaf7IGLg38Suewc
+         povQ==
+X-Gm-Message-State: AOJu0YwyEI2u/K2zZHasyS801YCL0M2uy9cgZvJgQoDzjjQg+/kMg7Qw
+	Th1NzyaOLE7yhsGXGUTpU8VmGsNsWHywZ3M7Z4wVvSt73tKfBFrqJmTEWrBX1fu4Dpcp5uK3esO
+	hnhTTZdWPy16hn46kkFL/cSZahe+308RMtQ==
+X-Gm-Gg: AeBDiet/MlNtrNE8obrJIont4oRs6MgLdRTs7H8K1BfZmnyHNHEN1q6DRvDqJQdZVwn
+	JpIXCqSV1Lz/DjwfYKbXsu9gdR8SFWL8TUsjZP3cEOfcQA9gcTN+t/0mcbUH5HL+gF0TxzsA+PT
+	MFbBVRyQsgP1TY6e4PnjvmnFuQU/VB+8Wdb52Z0qWYFBWvo/CDBFp7gdOKXjHRLG8PjRCoVIwEq
+	DH4BRu9/NlaOzcuPXUHXfp8yv8Fr78V3fRRVIDvuHh00KfCQ3JbEmAeAZwGpr8Z9Y0P+ilcGZD0
+	MkinPhWdxMUHOqWnnhMn1NbR1ZqzY+3dV0MkIWxGiPALr8NhNgTq+QVaZIgJMKkxXT/lo3AR/UM
+	qrWY6aQ==
+X-Received: by 2002:a05:6102:2c16:b0:607:f24a:1bef with SMTP id
+ ada2fe7eead31-62d8579b124mr4991628137.13.1777925171718; Mon, 04 May 2026
+ 13:06:11 -0700 (PDT)
+MIME-Version: 1.0
+From: Il etait un burger <iletaitunburger@gmail.com>
+Date: Mon, 4 May 2026 22:05:59 +0200
+X-Gm-Features: AVHnY4LA4Pxf1kFQJbIa9bpgp9Z78oseoH-SjycdQeEG_acxHfgcb4yqtP9pOuM
+Message-ID: <CAF9wTi_ggAfFMO6VWHjmPiCca6iuXqAuaYtA9_cUSnrH=jdPMg@mail.gmail.com>
+Subject: test
+To: adam.ideaz@automatisations.org
+Content-Type: multipart/alternative; boundary="0000000000004c2ebf06510376a6"
+X-Last-TLS-Session-Version: TLSv1.3
+X-Rspamd-Queue-Id: 0152CCF390
+X-Spamd-Result: default: False [3.89 / 15.00];
+	BAD_REP_POLICIES(2.00)[];
+	RBL_SENDERSCORE_REPUT_6(1.00)[209.85.217.48:from];
+	URI_COUNT_ODD(1.00)[1];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	R_DKIM_ALLOW(0.00)[gmail.com:s=20251104];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
+	FREEMAIL_ENVFROM(0.00)[gmail.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[adam.ideaz@automatisations.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TO_DN_NONE(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DWL_DNSWL_NONE(0.00)[gmail.com:dkim];
+	RWL_MAILSPIKE_POSSIBLE(0.00)[209.85.217.48:from];
+	ARC_ALLOW(0.00)[google.com:s=arc-20240605:i=1];
+	R_SPF_ALLOW(0.00)[+ip4:209.85.128.0/17];
+	RCVD_COUNT_ONE(0.00)[1];
+	ASN(0.00)[asn:15169, ipnet:209.85.128.0/17, country:US];
+	RCVD_IN_DNSWL_NONE(0.00)[209.85.217.48:from]
+
+--0000000000004c2ebf06510376a6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+des que tu vois ce mail r=C3=A9pond moi a cette adresse en m 'envoyant le c=
+ode
+123 456
+Cordialement,
+Kevyn.
+
+
+78 rue Mouffetard 75005 Paris
+T=C3=A9l=C3=A9phone: 07 68 28 74 44
+Instagram: @iletait1burger
+
+--0000000000004c2ebf06510376a6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>des que tu vois ce mail r=C3=A9pond moi a cette adres=
+se en m &#39;envoyant le code 123 456</div><div><div dir=3D"ltr" class=3D"g=
+mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>Co=
+rdialement,</div><div>Kevyn.</div><div><br></div><div><img src=3D"https://c=
+i3.googleusercontent.com/mail-sig/AIorK4wZukd5OwvGhr5RzlzTzYlP7kKeXSWcnh4FN=
+VkPfUmjSh4aUgOWCUpMDclBIW1CliyjzrbRIcfqSs6A" width=3D"96" height=3D"54"><br=
+></div><div><div>78 rue Mouffetard 75005 Paris</div><div>T=C3=A9l=C3=A9phon=
+e: 07 68 28 74 44=C2=A0<br></div><div>Instagram: @iletait1burger</div></div=
+><div><br></div></div></div></div></div>
+
+--0000000000004c2ebf06510376a6--
