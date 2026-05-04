@@ -29,6 +29,8 @@ import sys
 import logging
 import signal
 import subprocess
+import urllib.request
+import urllib.parse
 from datetime import datetime, timezone
 
 # ── Config ──────────────────────────────────────────────────────────────
@@ -39,6 +41,50 @@ MAIL_DOMAIN = "automatisations.org"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "../../data")
+
+# ── Telegram ────────────────────────────────────────────────────────────
+# NOTIFICATIONS_ENABLED = True envoie les OTP et mails importants sur Telegram
+# Le token et chat_id sont lus depuis /root/.openclaw/telegram.env
+TELEGRAM_ENABLED = True
+TELEGRAM_CHAT_ID = "8695655337"
+TELEGRAM_BOT_TOKEN = None  # chargé depuis le fichier env
+TELEGRAM_ENV_PATH = "/root/.openclaw/telegram.env"
+
+def _load_telegram_token():
+    global TELEGRAM_BOT_TOKEN
+    if TELEGRAM_BOT_TOKEN is not None:
+        return TELEGRAM_BOT_TOKEN
+    try:
+        with open(TELEGRAM_ENV_PATH) as f:
+            for line in f:
+                if line.startswith("TELEGRAM_BOT_TOKEN="):
+                    val = line.strip().split("=", 1)[1]
+                    if '"' in val:
+                        val = val.split('"')[1]
+                    TELEGRAM_BOT_TOKEN = val
+                    return val
+    except Exception as e:
+        logger.warning(f"Impossible de lire {TELEGRAM_ENV_PATH}: {e}")
+    return None
+
+def notify_telegram(message: str):
+    """Envoie un message Telegram. Coût : 0 token, simple appel HTTP."""
+    if not TELEGRAM_ENABLED:
+        return
+    token = _load_telegram_token()
+    if not token:
+        return
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    data = urllib.parse.urlencode({
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": message,
+        "parse_mode": "HTML",
+    }).encode()
+    try:
+        req = urllib.request.Request(url, data=data)
+        resp = urllib.request.urlopen(req, timeout=10)
+    except Exception as e:
+        logger.debug(f"notify_telegram: {e}")
 REPORT_FILE = os.path.join(DATA_DIR, "mail_watch_report.json")
 LOG_DIR = os.path.join(DATA_DIR, "logs")
 LOG_FILE = os.path.join(LOG_DIR, "mail_watch.log")
@@ -356,6 +402,7 @@ def watch_logs():
             info = parse_last_email(email, pwd)
             if info:
                 append_report(info)
+                notify_telegram(info["msg"])
                 logger.info(f"✅  {info['msg']}")
             else:
                 logger.debug(f"Message pour {email} pas encore accessible")
