@@ -75,6 +75,31 @@ Si un port SMTP/IMAP répond, le service est là — peu importe comment.
 - **Rapport :** data/mail_watch_report.json
 - **Corps mails :** data/mails/
 
+## 💰 Coût API quotidien
+
+Suivi du coût DeepSeek (modèle deepseek-v4-flash) :
+
+| Date | Coût | Requêtes | Output tokens | Cache hit | Cache miss |
+|------|------|----------|---------------|-----------|------------|
+| 2026-05-01 | $0.39 | 136 | 45 025 | 4 676 352 | 2 580 800 |
+| 2026-05-02 | $1.97 | 773 | 166 175 | 31 094 912 | 13 081 886 |
+| 2026-05-03 | $0.88 | 377 | 160 244 | 17 455 488 | 5 639 352 |
+| 2026-05-04 | $0.77 | 528 | 158 761 | 23 749 504 | 4 698 990 |
+| **Total mai** | **$4.00** | **1 814** | **530 205** | **77M** | **26M** |
+
+### Stratégies pour réduire le coût
+
+1. **Compacter plus souvent** — les sessions longues accumulent du contexte (input), coûtent cher en cache miss
+2. **Éviter les sessions inutiles** — une requête = coût même minimal
+3. **Utiliser le sub-agent pour les tâches isolées** — ses tokens ne s'ajoutent pas au contexte parent
+4. **HEARTBEAT :** ne pas répondre quand rien à dire (NO_REPLY évite un tour de contexte)
+5. **Privilégier les fichiers .md pour la mémoire** plutôt que de tout recharger à chaque session
+
+### Actions concrètes
+- [ ] Regrouper les questions en un seul message plutôt que plusieurs petits
+- [ ] Utiliser `--check-last` ponctuellement, pas `--check-now` systématique
+- [ ] Mettre à jour ce tableau quotidiennement
+
 ## Related
 
 - [Agent workspace](/concepts/agent-workspace)
