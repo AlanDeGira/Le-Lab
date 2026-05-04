@@ -219,10 +219,47 @@ def parse_last_email(email_addr: str, password: str) -> dict | None:
         except Exception:
             pass
 
-        # OTP detection (même sur service inconnu, au cas où)
+        # OTP detection — on cherche le code UNIQUEMENT dans le message usager
+        # Problème : les en-têtes DKIM/ARC/SPF contiennent des faux codes (signatures Google)
+        # Solution : on retire les en-têtes de routage (lignes DKIM-Signature, ARC-*, Received, etc.)
+        # et on ne garde que le corps visible (après le premier Content-Type: multipart ou text)
         otp = None
-        codes = OTP_RE.findall(body)
-        otp = next((c for c in codes if 5 <= len(c) <= 8), None)
+        body_clean = body
+        # Trouver le dernier contenu text/plain ou text/html
+        for marker in ["Content-Type: text/plain;", "Content-Type: text/html;"]:
+            pos = body.rfind(marker)
+            if pos >= 0:
+                after = body.find("\n\n", pos)
+                if after >= 0:
+                    candidate = body[after + 2:]
+                    # Couper au prochain boundary
+                    next_bnd = candidate.find("\n--")
+                    if next_bnd >= 0:
+                        candidate = candidate[:next_bnd]
+                    codes = OTP_RE.findall(candidate)
+                    valid = [c for c in codes if 5 <= len(c) <= 8]
+                    if valid:
+                        otp = valid[0]  # premier code dans la section = le plus proche de l'objet du mail
+                        break
+        # Fallback : si rien trouvé dans text/plain, chercher dans tout le body
+        # mais en ignorant les lignes DKIM/ARC/Received
+        if not otp:
+            lines = body.split("\n")
+            clean_lines = []
+            skip = False
+            for line in lines:
+                low = line.lower()
+                if any(kw in low for kw in ["dkim-signature", "arc-seal", "arc-message-",
+                                             "arc-authentication", "x-google-dkim",
+                                             "received:", "authentication-results"]):
+                    skip = True
+                elif line.strip() == "":
+                    skip = False
+                if not skip:
+                    clean_lines.append(line)
+            body_clean = "\n".join(clean_lines)
+            codes = OTP_RE.findall(body_clean)
+            otp = next((c for c in codes if 5 <= len(c) <= 8), None)
 
         # Sauvegarde du corps complet dans un fichier consultable
         mail_id = f"{email_addr.replace('@', '_at_')}_{uid_str}"

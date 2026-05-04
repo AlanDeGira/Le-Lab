@@ -1,0 +1,19 @@
+Return-Path: <adam.app@automatisations.org>
+Delivered-To: adam.strateur@automatisations.org
+Received: from mail.automatisations.org ([172.22.1.253])
+	by dcb029441ff0 with LMTP
+	id UPxpIXoK+WkBjgEAUlR1WQ
+	(envelope-from <adam.app@automatisations.org>)
+	for <adam.strateur@automatisations.org>; Mon, 04 May 2026 23:07:06 +0200
+X-Original-To: adam.strateur@automatisations.org
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D8269CED8D
+	for <adam.strateur@automatisations.org>; Mon,  4 May 2026 23:07:05 +0200 (CEST)
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Your Facebook code is 123456
+From: adam.app@automatisations.org
+To: adam.strateur@automatisations.org
+X-Last-TLS-Session-Version: TLSv1.3
+
+Test final notification Telegram - code 123456

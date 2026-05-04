@@ -1,0 +1,142 @@
+Return-Path: <>
+Delivered-To: adam.strateur@automatisations.org
+Received: from mail.automatisations.org ([172.22.1.253])
+	by dcb029441ff0 with LMTP
+	id KJ0yF60K+WkBjgEAUlR1WQ
+	(envelope-from <>)
+	for <adam.strateur@automatisations.org>; Mon, 04 May 2026 23:07:57 +0200
+X-Original-To: adam.strateur@automatisations.org
+Received: by mail.automatisations.org (Postcow)
+	id 5645CCF396; Mon,  4 May 2026 23:07:57 +0200 (CEST)
+Date: Mon,  4 May 2026 23:07:57 +0200 (CEST)
+From: Mail Delivery System <MAILER-DAEMON@mail.automatisations.org>
+Subject: Undelivered Mail Returned to Sender
+To: adam.strateur@automatisations.org
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="51BC9CF375.1777928877/mail.automatisations.org"
+Message-Id: <20260504210757.5645CCF396@mail.automatisations.org>
+
+This is a MIME-encapsulated message.
+
+--51BC9CF375.1777928877/mail.automatisations.org
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
+
+This is the mail system at host mail.automatisations.org.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to postmaster.
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                   The mail system
+
+<alan.degira@gmail.com>: host
+    gmail-smtp-in.l.google.com[2a00:1450:4001:c21::1a] said: 550-5.7.1
+    [2a02:c207:2292:5798::1] Messages missing a valid Message-ID header
+    550-5.7.1 are not accepted. For more information, go to 550-5.7.1
+    https://support.google.com/mail/?p=RfcMessageNonCompliant and review 550
+    5.7.1 RFC 5322 specifications. ffacd0b85a97d-4502d72ec96si44381f8f.328 -
+    gsmtp (in reply to end of DATA command)
+
+--51BC9CF375.1777928877/mail.automatisations.org
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; mail.automatisations.org
+X-Postcow-Queue-ID: 51BC9CF375
+X-Postcow-Sender: rfc822; adam.strateur@automatisations.org
+Arrival-Date: Mon,  4 May 2026 23:07:54 +0200 (CEST)
+
+Final-Recipient: rfc822; alan.degira@gmail.com
+Original-Recipient: rfc822;alan.degira@gmail.com
+Action: failed
+Status: 5.7.1
+Remote-MTA: dns; gmail-smtp-in.l.google.com
+Diagnostic-Code: smtp; 550-5.7.1 [2a02:c207:2292:5798::1] Messages missing a
+    valid Message-ID header 550-5.7.1 are not accepted. For more information,
+    go to 550-5.7.1  https://support.google.com/mail/?p=RfcMessageNonCompliant
+    and review 550 5.7.1 RFC 5322 specifications.
+    ffacd0b85a97d-4502d72ec96si44381f8f.328 - gsmtp
+
+--51BC9CF375.1777928877/mail.automatisations.org
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+
+Return-Path: <adam.strateur@automatisations.org>
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 51BC9CF375
+	for <alan.degira@gmail.com>; Mon,  4 May 2026 23:07:54 +0200 (CEST)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Subject: =?utf-8?q?R=C3=A9cup=C3=A9ration_OTP_-_explication_syst=C3=A8me?=
+From: adam.strateur@automatisations.org
+To: alan.degira@gmail.com
+X-Last-TLS-Session-Version: TLSv1.3
+
+U2FsdXQsCgpWb2ljaSBjb21tZW50IGZvbmN0aW9ubmUgbGUgc3lzdMOobWUgZGUgcsOpY3Vww6ly
+YXRpb24gZGVzIGNvZGVzIE9UUCwgcG91ciBxdWUgdHUgcHVpc3NlcyBsJ2V4cGxpcXVlciDDoCB0
+b24gcG90ZSBldCBxdSdpbCBzYWNoZSBjb21tZW50IMOnYSB0b3VybmUuCgo9PT0gUFJJTkNJUEUg
+R8OJTsOJUkFMID09PQoKVW4gc2NyaXB0IFB5dGhvbiB0b3VybmUgMjQvNyBzdXIgbGUgc2VydmV1
+ci4gSWwgw6ljb3V0ZSBlbiB0ZW1wcyByw6llbCBsZXMgbG9ncyBkdSBzZXJ2ZXVyIG1haWwgKFBv
+c3RmaXgpLiBEw6hzIHF1J3VuIGVtYWlsIGFycml2ZSBzdXIgdW5lIGJvw650ZSBAYXV0b21hdGlz
+YXRpb25zLm9yZywgaWwgZXN0IGTDqXRlY3TDqSBlbiB+MSBzZWNvbmRlLCBldCBsZSBjb2RlIE9U
+UCBlc3QgZXh0cmFpdCBldCBlbnZvecOpIHBhciBub3RpZmljYXRpb24gVGVsZWdyYW0uCgpaw4lS
+TyB0b2tlbiBBUEkgTExNIGNvbnNvbW3DqS4gQydlc3QganVzdGUgZHUgUHl0aG9uIHN0YW5kYXJk
+LgoKPT09IEFSQ0hJVEVDVFVSRSA9PT0KCjEuIFdhdGNoZXIgKG1haWxfd2F0Y2gucHkpCiAgIC0g
+VG91cm5lIGVuIGTDqW1vbiB2aWEgbm9odXAKICAgLSBQSUQgdmlzaWJsZSBhdmVjIDogcGdyZXAg
+LWYgbWFpbF93YXRjaC5weQogICAtIMOJY291dGUgZG9ja2VyIGxvZ3MgLS1mb2xsb3cgc3VyIGxl
+IGNvbnRhaW5lciBQb3N0Zml4CiAgIC0gRMOpdGVjdGUgbGVzIGxpZ25lcyAic3RhdHVzPXNlbnQi
+IHZlcnMgQGF1dG9tYXRpc2F0aW9ucy5vcmcKICAgLSBTZSBjb25uZWN0ZSBlbiBJTUFQIHN1ciBs
+YSBib8OudGUgY29uY2VybsOpZSB1bmlxdWVtZW50CiAgIC0gRXh0cmFpdCBsZSBjb2RlIE9UUCBh
+dmVjIGRlcyByZWdleCAoNSDDoCA4IGNoaWZmcmVzKQogICAtIFNhdXZlZ2FyZGUgbGUgY29ycHMg
+Y29tcGxldCBkYW5zIGRhdGEvbWFpbHMvCiAgIC0gRW52b2llIHVuZSBub3RpZmljYXRpb24gVGVs
+ZWdyYW0KCjIuIE5vdGlmaWNhdGlvbiBUZWxlZ3JhbQogICAtIEVudm95w6llIGltbcOpZGlhdGVt
+ZW50IGFwcsOocyBkw6l0ZWN0aW9uCiAgIC0gRm9ybWF0IDog8J+UkSBib2l0ZSDihpAgZXhww6lk
+aXRldXIgW3NlcnZpY2VdIGNvZGU6IFhYWFhYWAogICAtIEV4ZW1wbGUgcsOpZWwgOiDwn5SRIGFk
+YW0uc3RyYXRldXIg4oaQIGFkYW0uYXBwIGNvZGU6IDEyMzQ1NgogICAtIFrDqXJvIHRva2VuIEFQ
+SSwgc2ltcGxlIGFwcGVsIEhUVFAgdmVycyBhcGkudGVsZWdyYW0ub3JnCgozLiBGaWNoaWVycyBz
+dXIgbGUgc2VydmV1cgogICAtIFNjcmlwdCA6IGxlLWxhYi9hZ2VudHMvbWFpbC9tYWlsX3dhdGNo
+LnB5CiAgIC0gTG9ncyA6IGxlLWxhYi9kYXRhL2xvZ3MvbWFpbF93YXRjaC5sb2cKICAgLSBSYXBw
+b3J0IEpTT04gOiBsZS1sYWIvZGF0YS9tYWlsX3dhdGNoX3JlcG9ydC5qc29uCiAgIC0gQ29ycHMg
+ZGVzIG1haWxzIDogbGUtbGFiL2RhdGEvbWFpbHMvCiAgIC0gRmljaGllciBkJ8OpdGF0IDogbGUt
+bGFiL2RhdGEvbWFpbF93YXRjaF9zdGF0ZS5qc29uCgo9PT0gQ09NTUFOREVTIFVUSUxFUyA9PT0K
+CiMgVm9pciBsJ8OpdGF0IGFjdHVlbCBkdSB3YXRjaGVyCmNkIGxlLWxhYi9hZ2VudHMvbWFpbCAm
+JiBweXRob24zIG1haWxfd2F0Y2gucHkgLS1zdGF0dXMKCiMgVm9pciBsZXMgNSBkZXJuaWVycyDD
+qXbDqW5lbWVudHMgKE9UUCBvdSBhdXRyZXMpCmNkIGxlLWxhYi9hZ2VudHMvbWFpbCAmJiBweXRo
+b24zIG1haWxfd2F0Y2gucHkgLS1jaGVjay1sYXN0IDUKCiMgVm9pciB1biBtYWlsIHNww6ljaWZp
+cXVlIHBhciBzb24gSUQKY2QgbGUtbGFiL2FnZW50cy9tYWlsICYmIHB5dGhvbjMgbWFpbF93YXRj
+aC5weSAtLXJlYWQtbWFpbCA8aWQ+CgojIFbDqXJpZmllciBtYW51ZWxsZW1lbnQgdG91dGVzIGxl
+cyBib8OudGVzCmNkIGxlLWxhYi9hZ2VudHMvbWFpbCAmJiBweXRob24zIG1haWxfd2F0Y2gucHkg
+LS1jaGVjay1ub3cKCj09PSBTRVJWSUNFUyBEw4lURUNUw4lTIEFVVE9NQVRJUVVFTUVOVCA9PT0K
+LSBGYWNlYm9vayAoZmFjZWJvb2ttYWlsLmNvbSwgZmFjZWJvb2suY29tLCBmYi5jb20pCi0gSW5z
+dGFncmFtIChpbnN0YWdyYW0uY29tLCBtYWlsLmluc3RhZ3JhbS5jb20pCi0gR29vZ2xlIChnb29n
+bGUuY29tLCBhY2NvdW50cy5nb29nbGUuY29tKQotIFR3aXR0ZXIvWCAodHdpdHRlci5jb20sIHgu
+Y29tKQotIFRpa1RvayAodGlrdG9rLmNvbSwgbWFpbC50aWt0b2suY29tKQotIExpbmtlZEluIChs
+aW5rZWRpbi5jb20pCi0gU25hcGNoYXQgKHNuYXBjaGF0LmNvbSkKLSBBbWF6b24gKGFtYXpvbi5j
+b20sIGFtYXpvbi5mciwgYW1hem9uLmRlKQotIFdoYXRzQXBwICh3aGF0c2FwcC5jb20pCi0gVGVs
+ZWdyYW0gKHRlbGVncmFtLm9yZykKCj09PSBGTFVYIERFIFRSQVZBSUwgPT09CgoxLiBMJ29ww6ly
+YXRldXIgY3LDqWUgdW4gY29tcHRlIEZhY2Vib29rL0luc3RhZ3JhbSBhdmVjIHVuZSBib8OudGUg
+QGF1dG9tYXRpc2F0aW9ucy5vcmcKICAgRXhlbXBsZSA6IGFkYW0ubmV3c0BhdXRvbWF0aXNhdGlv
+bnMub3JnCgoyLiBNZXRhIGVudm9pZSBsZSBjb2RlIE9UUCBwYXIgZW1haWwKCjMuIExlIHdhdGNo
+ZXIgZMOpdGVjdGUgbCdhcnJpdsOpZSBkdSBtYWlsIGRhbnMgbGVzIGxvZ3MgUG9zdGZpeCAofjEg
+c2VjKQoKNC4gTGUgd2F0Y2hlciBmZXRjaCBsZSBtYWlsIGVuIElNQVAsIGV4dHJhaXQgbGUgY29k
+ZSAofjMgc2VjKQoKNS4gTGUgY29kZSBlc3QgZW52b3nDqSBwYXIgbm90aWZpY2F0aW9uIFRlbGVn
+cmFtICh+MSBzZWMpCgo2LiBMJ29ww6lyYXRldXIgcmXDp29pdCBsYSBub3RpZmljYXRpb24gc3Vy
+IHNvbiB0w6lsw6lwaG9uZQoKVGVtcHMgdG90YWwgOiB+NSBzZWNvbmRlcyBlbnRyZSAiRW52b3ll
+ciBsZSBjb2RlIiBldCBsYSBub3RpZmljYXRpb24uCgo9PT0gU8OJQ1VSSVTDiSA9PT0KCi0gQXVj
+dW5lIGTDqXBlbmRhbmNlIGV4dGVybmUgKHN0ZGxpYiBQeXRob24gdW5pcXVlbWVudCkKLSBBdWN1
+biBhcHBlbCDDoCB1bmUgQVBJIElBIG91IExMTQotIExlcyBtb3RzIGRlIHBhc3NlIHNvbnQgZ8Op
+bsOpcsOpcyBwYXIgcGF0dGVybiAoamFtYWlzIHN0b2Nrw6lzIGVuIGR1cikKLSBMZSBjb3JwcyBk
+ZXMgbWFpbHMgZXN0IHN0b2Nrw6kgc3VyIGRpc3F1ZSBwb3VyIGNvbnN1bHRhdGlvbgotIExlIHdh
+dGNoZXIgcGV1dCDDqnRyZSByZWTDqW1hcnLDqSBzYW5zIHBlcnRlIGRlIGRvbm7DqWVzIChzdGF0
+ZS5qc29uKQotIExlIHJhcHBvcnQgSlNPTiBlc3QgbGltaXTDqSDDoCA1MDAwIGVudHLDqWVzIChy
+b3RhdGlvbiBhdXRvbWF0aXF1ZSkKCkJvbiBjb3VyYWdlIGF2ZWMgbCfDqXF1aXBlICEKCkFsYW4g
+8J+OqQ==
+
+--51BC9CF375.1777928877/mail.automatisations.org--

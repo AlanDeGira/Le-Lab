@@ -58,5 +58,57 @@
     "body_file": "/root/.openclaw/workspace/le-lab/agents/mail/../../data/mails/adam.ideaz_at_automatisations.org_4.txt",
     "type": "otp",
     "msg": "🔑 adam.ideaz@automatisations.org ← iletaitunburger@gmail.com code: 20251104"
+  },
+  {
+    "ts": "2026-05-04T21:06:37.952333+00:00",
+    "mailbox": "adam.web@automatisations.org",
+    "sender": "adam.app@automatisations.org",
+    "subject": "Your Instagram code is 987654",
+    "service": "autre",
+    "otp": "987654",
+    "uid": "3",
+    "body_preview": "Return-Path: <adam.app@automatisations.org>\r\nDelivered-To: adam.web@automatisations.org\r\nReceived: from mail.automatisations.org ([172.22.1.253])\r\n\tby dcb029441ff0 with LMTP\r\n\tid IN0ZJVoK+WkBjgEAUlR1WQ\r\n\t(envelope-from <adam.app@automatisations.org>)\r\n\tfor <adam.web@automatisations.org>; Mon, 04 May",
+    "body_file": "/root/.openclaw/workspace/le-lab/agents/mail/../../data/mails/adam.web_at_automatisations.org_3.txt",
+    "type": "otp",
+    "msg": "🔑 adam.web@automatisations.org ← adam.app@automatisations.org code: 987654"
+  },
+  {
+    "ts": "2026-05-04T21:07:09.942398+00:00",
+    "mailbox": "adam.strateur@automatisations.org",
+    "sender": "adam.app@automatisations.org",
+    "subject": "Your Facebook code is 123456",
+    "service": "autre",
+    "otp": "123456",
+    "uid": "36",
+    "body_preview": "Return-Path: <adam.app@automatisations.org>\r\nDelivered-To: adam.strateur@automatisations.org\r\nReceived: from mail.automatisations.org ([172.22.1.253])\r\n\tby dcb029441ff0 with LMTP\r\n\tid UPxpIXoK+WkBjgEAUlR1WQ\r\n\t(envelope-from <adam.app@automatisations.org>)\r\n\tfor <adam.strateur@automatisations.org>; M",
+    "body_file": "/root/.openclaw/workspace/le-lab/agents/mail/../../data/mails/adam.strateur_at_automatisations.org_36.txt",
+    "type": "otp",
+    "msg": "🔑 adam.strateur@automatisations.org ← adam.app@automatisations.org code: 123456"
+  },
+  {
+    "ts": "2026-05-04T21:08:00.630236+00:00",
+    "mailbox": "adam.strateur@automatisations.org",
+    "sender": "MAILER-DAEMON@mail.automatisations.org",
+    "subject": "Undelivered Mail Returned to Sender",
+    "service": "autre",
+    "otp": null,
+    "uid": "37",
+    "body_preview": "Return-Path: <>\r\nDelivered-To: adam.strateur@automatisations.org\r\nReceived: from mail.automatisations.org ([172.22.1.253])\r\n\tby dcb029441ff0 with LMTP\r\n\tid KJ0yF60K+WkBjgEAUlR1WQ\r\n\t(envelope-from <>)\r\n\tfor <adam.strateur@automatisations.org>; Mon, 04 May 2026 23:07:57 +0200\r\nX-Original-To: adam.stra",
+    "body_file": "/root/.openclaw/workspace/le-lab/agents/mail/../../data/mails/adam.strateur_at_automatisations.org_37.txt",
+    "type": "mail",
+    "msg": "📩 adam.strateur@automatisations.org ← MAILER-DAEMON@mail.automatisations.org — Undelivered Mail Returned to Sender"
+  },
+  {
+    "ts": "2026-05-04T21:22:37.795212+00:00",
+    "mailbox": "adam.ideaz@automatisations.org",
+    "sender": "iletaitunburger@gmail.com",
+    "subject": "Tast",
+    "service": "autre",
+    "otp": "20251104",
+    "uid": "5",
+    "body_preview": "Return-Path: <iletaitunburger@gmail.com>\r\nDelivered-To: adam.ideaz@automatisations.org\r\nReceived: from mail.automatisations.org ([fd4d:6169:6c63:6f77::f])\r\n\tby dcb029441ff0 with LMTP\r\n\tid qMoIGxoO+Wm/kwEAUlR1WQ\r\n\t(envelope-from <iletaitunburger@gmail.com>)\r\n\tfor <adam.ideaz@automatisations.org>; Mon",
+    "body_file": "/root/.openclaw/workspace/le-lab/agents/mail/../../data/mails/adam.ideaz_at_automatisations.org_5.txt",
+    "type": "otp",
+    "msg": "🔑 adam.ideaz@automatisations.org ← iletaitunburger@gmail.com code: 20251104"
   }
 ]
