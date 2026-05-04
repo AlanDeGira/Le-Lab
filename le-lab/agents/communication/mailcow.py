@@ -74,6 +74,11 @@ def creer_boite(email, nom, mot_de_passe):
     
     success = exec_mysql(query)
     if success:
+        # Ajouter l'entrée sender_acl pour permettre l'envoi depuis cette adresse
+        exec_mysql(f"""
+            INSERT IGNORE INTO sender_acl (logged_in_as, send_as)
+            VALUES ('{email}', '{email}');
+        """)
         print(f"  ✅ {email} créée")
     else:
         print(f"  ❌ {email} échec")

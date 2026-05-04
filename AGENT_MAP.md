@@ -40,8 +40,14 @@ Consulté au démarrage pour avoir une vue d'ensemble de l'infrastructure.
 - **Accès :** Docker, MySQL, Mailcow API, base `le_lab`, GitHub
 - **Documentation :** SOUL.md (personnalité), TOOLS.md (règles de diagnostic), AGENT_MAP.md (ce fichier)
 
-*À créer / enregistrer dans la config OpenClaw :*
-- [ ] Agent Mail OTP — vérification et lecture des boîtes mail
+### Agent Mail (autonome)
+- **Dossier :** `le-lab/agents/mail/`
+- **Définition :** `agent-mail.md`
+- **Scripts :** `mailcow.py` (création), `test_mail.py` (test émission/réception)
+- **Rôle :** Gère le cycle de vie des boîtes mail — création, test, lecture OTP
+- **Autonomie :** S'exécute en tâche de fond sans supervision
+- **Dépendances :** Mailcow (Docker), MySQL, le_lab
+- **Canaux :** Écrit dans `le_lab.logs`, peut être appelé en CRON
 
 ---
 
