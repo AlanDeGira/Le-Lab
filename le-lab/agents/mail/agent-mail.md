@@ -80,20 +80,37 @@ Si un script crashe :
 - Logger l'erreur dans `le_lab.logs`
 - Si 3 échecs, alerte Superviseur
 
-## Flags d'activation
+## Pilotage
 
-Les scripts suivants peuvent être appelés en CRON ou à la demande :
+**Point d'entrée unique :** `agent.py`
 
+**Depuis la ligne de commande (par un autre agent ou Alan) :**
 ```bash
-# Vérification quotidienne des boîtes
-python3 test_mail.py --check-all
-
-# Surveillance OTP (boucle courte, sur demande)
-python3 otp_watcher.py --watch prenom.strateur@automatisations.org
-
-# Test complet d'un portfolio
-python3 test_mail.py --portfolio A
+# Lancer l'agent avec une action
+python3 agent.py test_all        # Tester tous les portfolios
+python3 agent.py resume           # Reprendre là où on s'est arrêté
+python3 agent.py test_one --portfolio A  # Tester un seul portfolio
+python3 agent.py status           # Rapport d'avancement
+python3 agent.py watch --email prenom.strateur@automatisations.org --timeout 120
+python3 agent.py daemon           # Mode daemon (écoute les commandes fichier)
 ```
+
+**Depuis un fichier de commande (mode asynchrone) :**
+```bash
+# Écrire une commande (Alan ou autre agent)
+echo '{"action": "resume"}' > /tmp/agent_mail_cmd.json
+
+# Lire le résultat
+cat /tmp/agent_mail_watcher.json  # Résultat OTP
+```
+
+**Depuis Alan (moi — uniquement demander) :**
+```
+Alan → Agent Mail : lance le test des portfolios restants
+Alan → Agent Mail : surveille adam.strateur@automatisations.org pour un OTP Facebook (timeout 120s)
+```
+
+**Ne pas faire :** Exécuter `test_mail.py`, `otp_watcher.py` ou `mailcow.py` directement. Passer par `agent.py`.
 
 ## Anomalies remontées au Superviseur
 
