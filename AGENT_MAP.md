@@ -135,7 +135,30 @@ Consulté au démarrage pour avoir une vue d'ensemble de l'infrastructure.
 
 ---
 
-## À faire (checklist persistante)
+## ## 🔄 Checklist démarrage de session
+
+Avant de répondre à Kevyn, exécuter :
+
+```bash
+# 1. Vérifier Docker
+docker ps -a --format 'table {{.Names}}\t{{.Status}}'
+
+# 2. Vérifier les ports actifs
+ss -tlnp | grep -E ':25|:80|:143|:443|:993|:587|:465|:5678|:11434|:13306'
+
+# 3. Vérifier les bases actives
+mysql -e "SHOW DATABASES;" 2>/dev/null
+
+# 4. Vérifier GitHub
+git status --short
+
+# 5. Consulter AGENT_MAP.md (ce fichier)
+# 6. Consulter TOOLS.md
+```
+
+---
+
+## 📋 À faire (checklist persistante)
 - [ ] Stocker mots de passe mail en clair dans `comptes` (mailcow.py)
 - [ ] Tester émission/réception 318 boîtes (par strateur)
 - [ ] Créer agent Mail OTP OpenClaw
