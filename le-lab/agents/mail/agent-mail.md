@@ -33,7 +33,9 @@ Création des comptes sociaux, publication, supervision — ça, c'est pour les 
 ### Fichiers du dossier
 - `mailcow.py` — Module de création de boîtes (mysql + hash)
 - `test_mail.py` — Script de test émission/réception
-- `otp_watcher.py` — Script de surveillance OTP (à créer)
+- `otp_watcher.py` — Script de surveillance OTP (polling IMAP)
+- `mail_watch.py` — Watcher temps réel (démon, surveillance logs Postfix Docker)
+- `agent.py` — Point d'entrée unique, orchestre tous les sous-scripts
 
 ## Règles de mots de passe
 
@@ -62,7 +64,42 @@ Pour chaque portfolio (13 boîtes) :
 
 **Fréquence :** Une fois par jour max, ou sur demande.
 
-## Surveillance OTP
+## Watcher temps réel (mail_watch.py)
+
+### Architecture
+
+Au lieu d'un polling IMAP coûteux, `mail_watch.py` surveille les logs Postfix en temps réel via Docker :
+
+1. Attache `docker logs -f` sur le container Postfix
+2. Détecte les connexions SMTP et IMAP en temps réel
+3. Quand un nouveau mail arrive, vérifie les expéditeurs connus (OTP)
+4. Si OTP détecté, le capture et le stocke dans `data/mail_watch_report.json`
+5. Les corps des mails sont stockés dans `data/mails/` pour consultation différée
+
+### Commandes
+
+| Commande | Description |
+|----------|-------------|
+| `python3 mail_watch.py --status` | État du watcher, derniers événements |
+| `python3 mail_watch.py --check-last 5` | Vérifie les 5 derniers mails reçus |
+| `python3 mail_watch.py --check-now` | Vérification immédiate en IMAP |
+| `python3 mail_watch.py --read-mail <id>` | Lit le corps d'un mail stocké |
+| `python3 mail_watch.py --daemon` | Lance en mode démon |
+
+### Détection OTP
+
+- Délai de détection : ~5s (vs 2min en polling IMAP)
+- Extraction par regex (pas de LLM) : `\b\d{5,8}\b`
+- Expéditeurs surveillés : Facebook, Instagram, Google, etc.
+- Stockage : JSON + corps individuel dans `data/mails/<id>.eml`
+
+### Sécurité
+
+- **Pas de LLM** sur les corps de mails — extraction regex uniquement
+- Les corps stockés sont nettoyés des tokens sensibles
+- Rapport JSON accessible en lecture seule par les agents
+
+## Surveillance OTP (legacy — otp_watcher.py)
 
 Quand une boîte attend un OTP (Facebook, etc.) :
 1. Se connecter en IMAP à la boîte cible
@@ -72,6 +109,12 @@ Quand une boîte attend un OTP (Facebook, etc.) :
 5. Marquer le message comme lu
 
 **Timeout :** Polling IMAP toutes les 10s max pendant 2 minutes.
+
+## Stockage des données
+
+- **Rapport watcher :** `data/mail_watch_report.json`
+- **Corps des mails :** `data/mails/<message_id>.eml`
+- **Logs watcher :** consignés dans stdout + `le_lab.logs` si accessible
 
 ## Auto-redémarrage
 

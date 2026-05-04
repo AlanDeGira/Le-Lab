@@ -65,6 +65,15 @@ Si un port SMTP/IMAP répond, le service est là — peu importe comment.
 |---------|-------------|-------|
 | Mailcow | postfix, dovecot, sogo, rspamd, mysql, redis, ... | 18 containers, `/opt/mailcow-dockerized/` |
 | Ollama | ollama | Port 11434 |
+| Watcher mail | mail_watch.py (PID variable) | `le-lab/agents/mail/mail_watch.py` |
+
+### Watcher mail
+- **Script :** le-lab/agents/mail/mail_watch.py
+- **Commande status :** `python3 mail_watch.py --status`
+- **Commande check :** `python3 mail_watch.py --check-last 5`
+- **Commande lecture :** `python3 mail_watch.py --read-mail <id>`
+- **Rapport :** data/mail_watch_report.json
+- **Corps mails :** data/mails/
 
 ## Related
 

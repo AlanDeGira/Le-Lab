@@ -59,12 +59,13 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 
 ## 📋 End of Session — Mandatory .md audit
 
-At the end of every session:
-1. **List all .md files** impacted by this session's changes
-2. **Verify** each one — is the info still accurate?
-3. **Update** every file that references changed config, agents, infrastructure, or decisions
-4. **Commit to GitHub**
-5. **Summarize** what was updated to Kevyn
+À chaque fin de session, vérifier spécifiquement :
+1. **`memory/YYYY-MM-DD.md`** — journal de session
+2. **`AGENT_MAP.md`** — si un agent a été créé ou modifié
+3. **`TOOLS.md`** — si l'infrastructure a changé
+4. **`SOUL.md`** — si le rôle a évolué
+5. **Commit to GitHub**
+6. **Summarize** what was updated to Kevyn
 
 ## External vs Internal
 
@@ -79,6 +80,11 @@ At the end of every session:
 - Sending emails, tweets, public posts
 - Anything that leaves the machine
 - Anything you're uncertain about
+
+### Délégation aux agents
+- Je ne lance plus de scripts directement
+- Je passe par les points d'entrée des agents (agent.py, mail_watch.py, etc.)
+- Les tâches courantes (tests mail, vérification OTP) sont déléguées
 
 ## Group Chats
 

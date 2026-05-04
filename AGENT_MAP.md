@@ -40,14 +40,13 @@ Consulté au démarrage pour avoir une vue d'ensemble de l'infrastructure.
 - **Accès :** Docker, MySQL, Mailcow API, base `le_lab`, GitHub
 - **Documentation :** SOUL.md (personnalité), TOOLS.md (règles de diagnostic), AGENT_MAP.md (ce fichier)
 
-### Agent Mail (autonome)
-- **Dossier :** `le-lab/agents/mail/`
-- **Définition :** `agent-mail.md`
-- **Scripts :** `mailcow.py` (création), `test_mail.py` (test émission/réception)
-- **Rôle :** Gère le cycle de vie des boîtes mail — création, test, lecture OTP
-- **Autonomie :** S'exécute en tâche de fond sans supervision
+### Agent Mail (le-lab/agents/mail/)
+- **Rôle :** Gestion des boîtes mail @automatisations.org, tests, surveillance OTP
+- **Fichiers :** agent.py, mailcow.py, test_mail.py, otp_watcher.py, mail_watch.py
+- **Watcher :** mail_watch.py (démon) — surveillance temps réel via logs Postfix Docker
+- **Commande status :** `cd le-lab/agents/mail && python3 mail_watch.py --status`
+- **Rapport :** data/mail_watch_report.json
 - **Dépendances :** Mailcow (Docker), MySQL, le_lab
-- **Canaux :** Écrit dans `le_lab.logs`, peut être appelé en CRON
 
 ---
 
@@ -93,7 +92,7 @@ Consulté au démarrage pour avoir une vue d'ensemble de l'infrastructure.
 
 ## Comptes mail (318 boîtes)
 
-### 312 boîtes publication
+### ~312 boîtes publication (selon process)
 26 prénoms × 12 suffixes :
 - **Web/App :** app, web, fr
 - **Projets :** hub, labs, studio
@@ -141,6 +140,17 @@ Consulté au démarrage pour avoir une vue d'ensemble de l'infrastructure.
 
 ---
 
+## Process
+
+### Process Farming v2
+- **Fichier :** le-lab/process/process-farming-v2.docx
+- **Étapes :** 1. Pré-check IG → 2. Strateur → 3. Profils FB → 4. IG Creator → 5. Pages FB (J+2/3) → 6. Portefeuille Meta
+- **Mots de passe :** `{Prénom}1!` (publication) / `{Prénom}.admin1!` (strateur)
+- **Domaine :** @automatisations.org (plus de Gmail)
+- **Architecture :** Prénom.suffixe (plus de Clara 1→9, plus de Google)
+- **Instagram :** mode Creator
+- **Page Facebook :** J+2/3 après création profil
+
 ## ## 🔄 Checklist démarrage de session
 
 Avant de répondre à Kevyn, exécuter :
@@ -165,7 +175,10 @@ git status --short
 ---
 
 ## 📋 À faire (checklist persistante)
+- [x] Correction base mail Mailcow — 313 boîtes réparées (hash, sender_acl), 572 tests OK
+- [x] Watcher mail temps réel — mail_watch.py surveille logs Postfix Docker, OTP en ~5s
+- [x] Agent Mail créé — le-lab/agents/mail/agent-mail.md, agent.py, mail_watch.py, otp_watcher.py, test_mail.py
+- [x] Process Farming v2 documenté — le-lab/process/process-farming-v2.docx
 - [ ] Stocker mots de passe mail en clair dans `comptes` (mailcow.py)
 - [ ] Tester émission/réception 318 boîtes (par strateur)
-- [ ] Créer agent Mail OTP OpenClaw
 - [ ] Créer comptes Facebook à la main
